@@ -2,12 +2,56 @@
   "id": "usa",
   "name": "USA",
   "description": "Soft red to sky blue on deep navy, after the flag of the United States. For businesses and tourism bureaus there.",
-  "author": "BizPlug",
+  "author": "Bart Cant - Rethink Labs",
   "colors": {
     "a1": "#fca5a5",
     "a2": "#93c5fd",
     "ink": "#0b1730",
     "bg": "#0a1a3a",
     "glow": "rgba(252,165,165,.14)"
+  },
+  "decor": {
+    "header": {
+      "pattern": "stripes",
+      "colors": [
+        "#b22234",
+        "#ffffff",
+        "#3c3b6e"
+      ]
+    },
+    "divider": {
+      "pattern": "dots",
+      "colors": [
+        "#ffffff",
+        "#fca5a5",
+        "#93c5fd"
+      ],
+      "motion": "twinkle"
+    },
+    "footer": {
+      "pattern": "lines",
+      "colors": [
+        "#b22234",
+        "#ffffff",
+        "#b22234"
+      ]
+    },
+    "stickers": [
+      {
+        "shape": "star",
+        "color": "#ffffff",
+        "motion": "twinkle"
+      },
+      {
+        "shape": "star",
+        "color": "#fca5a5",
+        "motion": "float"
+      },
+      {
+        "shape": "star",
+        "color": "#93c5fd",
+        "motion": "twinkle"
+      }
+    ]
   }
 }
