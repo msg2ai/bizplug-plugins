@@ -256,7 +256,7 @@ npx tsx industries/check-industry.ts community/industries/<slug>.json
 npx tsx industries/test-industry.ts <pull request number>
 ```
 
-It lists the tools and checks each step: the tool list and definitions, the menu, the look-up (with your example first), a request and its reference, the status of that reference, a request with nothing filled in (it must be refused), and the business's information and contact details. Paste its output in your pull request.
+It lists the tools and checks each step: the tool list and definitions, the menu, the look-up (with your example first), a request and its reference, the status of that reference, a request with nothing filled in (it must be refused), and the business's information and contact details. Then it tries what your file adds: each collection (listed, filtered by its first filter, one entry opened), the read-only tools of your options, and each request form (sent on the sample, which sends nothing, and refused when empty), and checks that every collection and form of your file is on the sample's menu. Paste its output in your pull request.
 
 **6. Review and merge.** The BizPlug team reviews the file in the pull request and merges it once it is agreed. Merging is the release: see [After your pull request is merged](#after-your-pull-request-is-merged). Your preview stays available while the pull request is open.
 

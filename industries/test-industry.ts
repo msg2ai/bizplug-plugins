@@ -1,5 +1,8 @@
 // Tests an industry plug-in the way ChatGPT uses it: the tool list, the menu, the look-up, a request, its status,
-// a request with nothing filled in, and the business's information and contact details. Copied as it is to
+// a request with nothing filled in, the business's information and contact details, and then what the file adds:
+// each collection (listed, filtered, one entry opened), the read-only tools its options add, and each request form
+// (sent only on a sample business, and refused when empty); on a pull request, that each collection and form of the
+// file is on the sample's menu. Copied as it is to
 // industries/test-industry.ts in the public plug-in repository (github.com/msg2ai/bizplug-plugins) by
 // scripts/export-plugins.ts; it imports nothing, so it runs there on its own with Node 18 or later.
 //
@@ -7,8 +10,8 @@
 //   npx tsx industries/test-industry.ts --plugin <url>            any plug-in, e.g. an industry's sample business
 //   options: --host <base> (default https://mcp-test.bizplug.ai), --engine <order|stay|appt|quote|track>, --json
 //
-// It sends a request only to a sample business (one that marks its answers as sample data and never sends
-// anything). For any other plug-in it skips the request steps, so a test can never reach a real business.
+// It sends a request or a form only to a sample business (one that marks its answers as sample data and never sends
+// anything). For any other plug-in it skips those steps, so a test can never reach a real business.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- JSON from the plug-in, read field by field
 type Json = Record<string, any>;
 type Check = { step: string; ok: boolean | null; detail: string };
@@ -55,6 +58,7 @@ async function main() {
   let expected: string[] | null = null;
   let sampleItem: string | null = null;
   let sampleRef: string | null = null;
+  let proposal: Json | null = null;
   let label: string;
 
   if (pr) {
@@ -63,6 +67,7 @@ async function main() {
     const res = await fetch(url, { signal: AbortSignal.timeout(30_000) });
     const info = (await res.json().catch(() => null)) as Json | null;
     if (!res.ok || !info) usage(`The preview of pull request #${pr} is not available: ${info?.error ?? `HTTP ${res.status}`}`);
+    proposal = info!.proposal;
     engine = info!.proposal.engine;
     const t = info!.proposal.tools;
     expected = [t.lookup, t.request, t.status];
@@ -151,6 +156,68 @@ async function main() {
   check("get_business_info", !info.isError, textOf(info).replace(/^\[SAMPLE DATA[^\]]*\]\s*/, "").split("\n")[0].slice(0, 100));
   const contact = await call(url, "get_contact");
   check("get_contact", !contact.isError, textOf(contact).replace(/^\[SAMPLE DATA[^\]]*\]\s*/, "").split("\n")[0].slice(0, 100));
+
+  // 6. The file's own parts: its collections, the read-only tools its options add, and its request forms. What the
+  // menu offers is what the business published, so each menu option is tried. Forms are sent only on a sample business.
+  const options = ((menu.structuredContent?.options ?? []) as Json[]).filter((o) => o && typeof o.tool === "string");
+  const defOf = (name: string) => tools.find((t) => t.name === name);
+  const clean = (r: Json) => textOf(r).replace(/^\[SAMPLE DATA[^\]]*\]\s*/, "").split("\n")[0].slice(0, 100);
+  // A value for each required input, from its type and name (dates in the coming days, numbers 2, the first choice).
+  const fill = (schema: Json): Json => {
+    const out: Json = {};
+    for (const key of (schema?.required ?? []) as string[]) {
+      const p = schema.properties?.[key] ?? {};
+      if (key === "business") continue;
+      out[key] = Array.isArray(p.enum) ? p.enum[0]
+        : p.type === "integer" || p.type === "number" ? 2
+        : p.type === "boolean" ? true
+        : /^(end|to|until|check_out|checkout)$/i.test(key) ? day(12)
+        : /date|day|start|from|when|check_in|checkin/i.test(key) || p.format === "date" ? day(10)
+        : key === "email" ? "test@example.com"
+        : key === "name" ? "Test Contributor"
+        : "Test";
+    }
+    return out;
+  };
+  const done = new Set([...COMMON, ...three]);
+  for (const o of options) {
+    const name = String(o.tool);
+    if (done.has(name) || o.kind === "mytrip" || o.kind === "forms") continue; // a trip code is the business's; linked forms open elsewhere
+    done.add(name);
+    const def = defOf(name);
+    if (o.kind === "collection") {
+      const all = await call(url, name);
+      const c = all.structuredContent?.collection ?? {};
+      const items = (c.items ?? []) as Json[];
+      check(`${name} (collection "${o.title}")`, !all.isError && items.length > 0, all.isError ? textOf(all).slice(0, 100) : `${items.length} of ${c.total ?? items.length}: ${items.slice(0, 3).map((x) => x.values?.name).join(", ")}`);
+      const f = ((c.filters ?? []) as Json[]).find((x) => (x.values ?? []).length > 0);
+      if (f) {
+        const value = String(f.values[0].name);
+        const narrowed = await call(url, name, { [f.key]: value });
+        const got = (narrowed.structuredContent?.collection?.items ?? []) as Json[];
+        check(`${name} filtered by ${f.label} "${value}"`, !narrowed.isError && got.length > 0 && got.every((x) => String(x.values?.[f.key] ?? "").toLowerCase().includes(value.toLowerCase())), `${got.length} match`);
+      }
+      if (items[0]?.id) {
+        const one = await call(url, name, { id: items[0].id });
+        check(`${name} opens one entry`, !one.isError && one.structuredContent?.collection?.open === items[0].id, clean(one));
+      }
+    } else if (o.kind === "customform") {
+      if (!sample) { check(`${name} (form "${o.title}")`, null, "skipped: not a sample business, so no form is sent"); continue; }
+      const sent = await call(url, name, { name: "Test Contributor", email: "test@example.com", ...fill(def?.inputSchema ?? {}) });
+      check(`${name} (form "${o.title}")`, !sent.isError && /nothing was sent/i.test(textOf(sent)), sent.isError ? textOf(sent).slice(0, 120) : `sample: nothing was sent${refOf(textOf(sent)) ? `, reference ${refOf(textOf(sent))}` : ""}`);
+      const empty = await call(url, name, {});
+      check(`${name} with nothing filled in`, empty.isError === true, empty.isError ? `refused: ${textOf(empty).slice(0, 80)}` : "accepted an empty form");
+    } else if (def && def.annotations?.readOnlyHint === true) {
+      const r = await call(url, name, fill(def.inputSchema ?? {}));
+      check(`${name} ("${o.title}")`, !r.isError, clean(r));
+    }
+  }
+  // On a pull request, every collection and form the file defines must be on the sample's menu.
+  if (proposal) {
+    const onMenu = new Set(options.map((o) => String(o.tool)));
+    for (const c of (proposal.collections ?? []) as Json[]) check(`collection ${c.key} on the menu`, onMenu.has(c.tool), onMenu.has(c.tool) ? `${c.tool}: "${c.title}"` : `${c.tool} is not on the menu: check its sample rows`);
+    for (const f of (proposal.forms ?? []) as Json[]) check(`form ${f.key} on the menu`, onMenu.has(f.key), onMenu.has(f.key) ? `"${f.title}"` : `${f.key} is not on the menu`);
+  }
 
   const failed = checks.filter((c) => c.ok === false).length;
   if (asJson) console.log(JSON.stringify({ plugin: label, url, engine, sample, passed: failed === 0, checks }, null, 2));
