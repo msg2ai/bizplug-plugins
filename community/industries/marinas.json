@@ -1,0 +1,116 @@
+{
+  "slug": "marinas",
+  "name": "Marinas & Boat Slips",
+  "group": "Travel & leisure",
+  "engine": "stay",
+  "span": "nights",
+  "title": "Visitor berths by the night and harbour services",
+  "tools": {
+    "lookup": "check_berth_availability",
+    "request": "request_berth_booking",
+    "status": "get_berth_booking_status"
+  },
+  "noun": "berth",
+  "ask": "Is there a visitor berth for a 12 m sailboat this Friday and Saturday?",
+  "covers": "visitor berths and nightly rates, boat length limits, fuel, water and shore power, showers and laundry, haul-out and the harbour area",
+  "rule": "Never give navigation, weather or tide advice; the harbour master confirms every berth and arrival time.",
+  "example": {
+    "business": "Harbour Point Marina",
+    "item": "Visitor berth up to 12 m",
+    "price": "45.00"
+  },
+  "who": "Marinas, harbours and yacht clubs with visitor berths.",
+  "author": "Bart Cant",
+  "github": "bartrtl",
+  "icon": "Ship",
+  "accent": "aqua",
+  "options": ["concierge"],
+  "collections": [
+    {
+      "key": "harbour",
+      "tool": "find_harbour_services",
+      "title": "Harbour services",
+      "noun": "service",
+      "description": "What the marina offers boats and crews: fuel, water, shore power, showers, laundry, repairs and haul-out, with where and when.",
+      "ask": "Where can I get diesel, and is the fuel dock open on Sunday?",
+      "layout": "list",
+      "columns": [
+        { "key": "name", "label": "Service", "type": "text", "search": true, "example": "Fuel dock" },
+        { "key": "kind", "label": "Kind", "type": "choice", "filter": true, "example": "Fuel" },
+        { "key": "where", "label": "Where", "type": "choice", "filter": true, "example": "Pontoon A" },
+        { "key": "hours", "label": "Hours", "type": "text", "example": "Daily 08:00 to 18:00" },
+        { "key": "price", "label": "Price", "type": "text", "example": "Diesel at the posted pump price" },
+        { "key": "about", "label": "About it", "type": "longtext", "search": true, "example": "Diesel and petrol for boats up to 15 m. Call the office on channel 9 before coming alongside." },
+        { "key": "page", "label": "More information", "type": "link", "example": "https://www.example.com/marina/fuel" }
+      ],
+      "sample": [
+        { "name": "Fuel dock", "kind": "Fuel", "where": "Pontoon A", "hours": "Daily 08:00 to 18:00", "price": "At the posted pump price", "about": "Diesel and petrol for boats up to 15 m." },
+        { "name": "Shore power", "kind": "Power", "where": "All pontoons", "hours": "Always on", "price": "Included in the berth rate", "about": "16 A sockets on every finger pontoon." },
+        { "name": "Showers and laundry", "kind": "Facilities", "where": "Harbour office", "hours": "06:00 to 22:00", "price": "Showers free, laundry by token", "about": "Code from the harbour office on arrival." },
+        { "name": "Boat lift", "kind": "Repairs", "where": "Boatyard", "hours": "Mon to Fri 08:00 to 16:00", "price": "On request", "about": "A 40 t travel lift for haul-out and repairs." }
+      ]
+    }
+  ],
+  "menuTitles": {
+    "lookup": "Find a berth",
+    "request": "Book a berth",
+    "status": "Berth booking",
+    "match": "Which berth fits?",
+    "explore": "Ashore",
+    "house": "Your berth: how it works"
+  },
+  "rules": [
+    "Quote only the published nightly rates; the harbour master confirms the price for the boat's length.",
+    "Never promise a berth for a boat longer or deeper than the marina publishes."
+  ],
+  "cardTheme": "ocean",
+  "nouns": { "host": "marina", "home": "berth", "homes": "berths", "houseGuide": "berth guide" },
+  "forms": [
+    {
+      "key": "order_fuel",
+      "title": "Fuel order",
+      "when": "When a boat wants fuel at its berth or at the fuel dock.",
+      "fields": [
+        { "key": "boat", "label": "Boat name", "type": "text", "required": true },
+        { "key": "berth", "label": "Berth", "type": "text" },
+        { "key": "fuel", "label": "Fuel", "type": "select", "required": true, "options": ["Diesel", "Petrol"] },
+        { "key": "litres", "label": "Litres", "type": "number", "required": true },
+        { "key": "day", "label": "Day", "type": "date", "required": true }
+      ],
+      "done": "The harbour office confirms the time on the radio or by email."
+    },
+    {
+      "key": "request_haul_out",
+      "title": "Haul-out request",
+      "when": "When a boat needs lifting out of the water for repairs, antifouling or storage.",
+      "fields": [
+        { "key": "boat", "label": "Boat name", "type": "text", "required": true },
+        { "key": "length_m", "label": "Length in metres", "type": "number", "required": true },
+        { "key": "boat_type", "label": "Type of boat", "type": "select", "options": ["Sailboat", "Motorboat", "Catamaran"] },
+        { "key": "work", "label": "What needs doing", "type": "textarea", "required": true },
+        { "key": "from_day", "label": "From", "type": "date" }
+      ],
+      "done": "The boatyard replies with a date and a quote."
+    }
+  ],
+  "page": {
+    "headline": "Visitor berths booked from the chat, not the VHF",
+    "problem": "Skippers ask the same questions on the radio and by phone: is there room tonight, how long can the boat be, where is the fuel. A plug-in answers from the marina's own berths, rates and services, and sends the berth request to the harbour office to confirm.",
+    "valueProps": [
+      "Berths with rates::Your visitor berths with their nightly rate and the longest boat each takes.",
+      "Harbour services::Fuel, power, showers and the boatyard, with where and when.",
+      "Requests to the office::Berth bookings, fuel orders and haul-outs arrive ready to confirm."
+    ],
+    "moments": [
+      "The evening arrival::A berth for tonight requested on the way in.",
+      "The fuel question::The fuel dock's hours answered from your list.",
+      "The winter lift::A haul-out requested with the boat's length.",
+      "Did you get my booking?::A reference check instead of a call."
+    ],
+    "journeys": ["Find a berth", "Book a berth", "Order fuel", "Check the booking"],
+    "faqs": [
+      "Does it give tide or weather advice?::No. It never gives navigation, weather or tide advice; the harbour master confirms every arrival.",
+      "Is the berth confirmed in the chat?::No. The harbour office confirms every booking."
+    ]
+  }
+}
