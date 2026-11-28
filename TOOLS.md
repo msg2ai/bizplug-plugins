@@ -15,7 +15,7 @@ You can call one yourself. The **sample businesses** below answer like a real bu
 | Engine | Sample businesses |
 | --- | --- |
 | `order` | `coffee-shops/demo-cafe`, `florists/demo-florist`, `retail/demo-shop` |
-| `stay` | `activity-calendar/demo-sample`, `events/demo-venue`, `hospitality/demo-hotel`, `hospitality/vrp-test-villaakerlyckan`, `tour-operators/demo-nile-river-cruises`, `tour-operators/demo-riverbend-journeys`, `tourism-bureaus/demo-sample` |
+| `stay` | `activity-calendar/demo-sample`, `events/demo-venue`, `hospitality/demo-hotel`, `hospitality/vrp-test-villaakerlyckan`, `marinas/demo-sample`, `tour-operators/demo-nile-river-cruises`, `tour-operators/demo-riverbend-journeys`, `tourism-bureaus/demo-sample` |
 | `appt` | `beauty/demo-salon`, `restaurant-reservations/demo-sample` |
 | `quote` | `dmc/demo-andes-path`, `hvac/demo-hvac` |
 | `track` | `property-management/demo-pm` |
@@ -162,7 +162,7 @@ Read-only.
 
 ### `stay`: Check what is free for dates and party size with the total price, send a booking request, check its status.
 
-The inputs below are Hospitality & Hotels's. Every stay industry takes the same inputs under its own tool names (table at the end of this section); only the words in the descriptions change. Try it on a sample business: `https://mcp.bizplug.ai/plugin/activity-calendar/demo-sample`, `https://mcp.bizplug.ai/plugin/events/demo-venue`, `https://mcp.bizplug.ai/plugin/hospitality/demo-hotel`, `https://mcp.bizplug.ai/plugin/hospitality/vrp-test-villaakerlyckan`, `https://mcp.bizplug.ai/plugin/tour-operators/demo-nile-river-cruises`, `https://mcp.bizplug.ai/plugin/tour-operators/demo-riverbend-journeys`, `https://mcp.bizplug.ai/plugin/tourism-bureaus/demo-sample`.
+The inputs below are Hospitality & Hotels's. Every stay industry takes the same inputs under its own tool names (table at the end of this section); only the words in the descriptions change. Try it on a sample business: `https://mcp.bizplug.ai/plugin/activity-calendar/demo-sample`, `https://mcp.bizplug.ai/plugin/events/demo-venue`, `https://mcp.bizplug.ai/plugin/hospitality/demo-hotel`, `https://mcp.bizplug.ai/plugin/hospitality/vrp-test-villaakerlyckan`, `https://mcp.bizplug.ai/plugin/marinas/demo-sample`, `https://mcp.bizplug.ai/plugin/tour-operators/demo-nile-river-cruises`, `https://mcp.bizplug.ai/plugin/tour-operators/demo-riverbend-journeys`, `https://mcp.bizplug.ai/plugin/tourism-bureaus/demo-sample`.
 
 #### `check_room_availability` (look-up: Availability and price)
 
@@ -206,7 +206,7 @@ Read-only.
 | --- | --- | --- | --- |
 | `reference` | string | yes | The reference returned when the request was made, e.g. BP-7K2Q9D. |
 
-<details><summary>Tool names of the 16 stay industries</summary>
+<details><summary>Tool names of the 17 stay industries</summary>
 
 | Industry | Look-up | Request | Status |
 | --- | --- | --- | --- |
@@ -225,6 +225,7 @@ Read-only.
 | Car Rental | `check_vehicle_availability` | `request_reservation` | `get_reservation_status` |
 | Coworking & Offices | `check_space_availability` | `request_space_booking` | `get_booking_status` |
 | Activity Calendar | `check_activity_calendar` | `request_activity_places` | `get_activity_request_status` |
+| Marinas & Boat Slips | `check_berth_availability` | `request_berth_booking` | `get_berth_booking_status` |
 | Tourism Bureaus & Destinations | `find_stays_and_activities` | `book_stay_or_activity` | `get_booking_status` |
 
 </details>
@@ -425,7 +426,7 @@ A few industries switch on an option that adds tools. Each is offered only when 
 
 ### `check_direct_offer` (Direct offer from the host's website)
 
-Read-only. Only when the business's own website gives signed offers by the Vacation Rental Protocol, and the BizPlug team has set up its domain. Industries: Hospitality & Hotels, Casinos & Gaming, Vacation Rentals, Tourism Bureaus & Destinations.
+Read-only. Only when the business's own website gives signed offers by the Vacation Rental Protocol, and the BizPlug team has set up its domain. Industries: Hospitality & Hotels, Casinos & Gaming, Vacation Rentals, Marinas & Boat Slips, Tourism Bureaus & Destinations.
 
 How the plug-in's instructions tell the assistant to use it: An offer that cannot be checked is returned as unknown and nothing from it may be quoted. Use it when the customer gives dates and a guest count and asks whether the home is free, what it costs or how to book.
 
@@ -488,7 +489,7 @@ How the plug-in's instructions tell the assistant to use it: Use it when the cus
 
 ### `explore_area` (Explore the area)
 
-Read-only. Only when the host published its local picks (places.csv). Industries: Vacation Rentals.
+Read-only. Only when the host published its local picks (places.csv). Industries: Vacation Rentals, Marinas & Boat Slips.
 
 How the plug-in's instructions tell the assistant to use it: Use it for any question about what to do, where to eat or what is nearby.
 
@@ -500,7 +501,7 @@ How the plug-in's instructions tell the assistant to use it: Use it for any ques
 
 ### `get_area_guide` (Area guide and events)
 
-Read-only. Only when the host published an area guide or events (area.csv, events.csv). Industries: Vacation Rentals.
+Read-only. Only when the host published an area guide or events (area.csv, events.csv). Industries: Vacation Rentals, Marinas & Boat Slips.
 
 | Input | Type | Required | What it is |
 | --- | --- | --- | --- |
@@ -510,7 +511,7 @@ Read-only. Only when the host published an area guide or events (area.csv, event
 
 ### `get_house_guide` (House guide)
 
-Read-only. Only when the host published a house guide (house.csv). Industries: Vacation Rentals.
+Read-only. Only when the host published a house guide (house.csv). Industries: Vacation Rentals, Marinas & Boat Slips.
 
 How the plug-in's instructions tell the assistant to use it: Never guess how an appliance works.
 
@@ -521,7 +522,7 @@ How the plug-in's instructions tell the assistant to use it: Never guess how an 
 
 ### `match_home` (Which home fits)
 
-Read-only. Only on vacation rental plug-ins from version 0.48.0. Industries: Vacation Rentals.
+Read-only. Only on vacation rental plug-ins from version 0.48.0. Industries: Vacation Rentals, Marinas & Boat Slips.
 
 | Input | Type | Required | What it is |
 | --- | --- | --- | --- |
@@ -534,7 +535,7 @@ Read-only. Only on vacation rental plug-ins from version 0.48.0. Industries: Vac
 
 ### `plan_stay` (Plan my stay)
 
-Read-only. Only on vacation rental plug-ins from version 0.48.0. Industries: Vacation Rentals.
+Read-only. Only on vacation rental plug-ins from version 0.48.0. Industries: Vacation Rentals, Marinas & Boat Slips.
 
 | Input | Type | Required | What it is |
 | --- | --- | --- | --- |
@@ -550,7 +551,7 @@ Read-only. Only on vacation rental plug-ins from version 0.48.0. Industries: Vac
 
 ### `continue_on_whatsapp` (Continue on WhatsApp)
 
-Read-only. Only when the host has a WhatsApp concierge or number. Industries: Vacation Rentals.
+Read-only. Only when the host has a WhatsApp concierge or number. Industries: Vacation Rentals, Marinas & Boat Slips.
 
 How the plug-in's instructions tell the assistant to use it: Use it when the guest wants to continue with the host on WhatsApp.
 
@@ -704,6 +705,17 @@ How the plug-in's instructions tell the assistant to use it: Use only once the c
 | `name` | string | yes | Customer's name. |
 | `email` | string | yes | Email the support team can reply to. |
 | `phone` | string |  | Optional phone number. |
+
+### `find_harbour_services` (Harbour services)
+
+Read-only. Only when the business published its harbour services (harbour.csv). Industries: Marinas & Boat Slips.
+
+| Input | Type | Required | What it is |
+| --- | --- | --- | --- |
+| `query` | string |  | Optional words to look for in the service names and in service, about it. |
+| `kind` | string |  | Optional: one of the business's own kind values, to show only those. |
+| `where` | string |  | Optional: one of the business's own where values, to show only those. |
+| `id` | string |  | Optional: one service's id or exact name, to open only that one. |
 
 ## For a new industry
 

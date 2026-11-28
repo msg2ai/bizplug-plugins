@@ -1,0 +1,893 @@
+{
+  "industry": "marinas",
+  "name": "Marinas & Boat Slips",
+  "engine": "stay",
+  "functionTitle": "Visitor berths by the night and harbour services",
+  "datasets": [
+    {
+      "id": "business",
+      "file": "business.csv",
+      "title": "Business details",
+      "why": "What the plug-in says about the business and where customers can reach it.",
+      "required": true,
+      "single": true,
+      "maxRows": 1,
+      "columns": [
+        {
+          "key": "name",
+          "label": "Business name",
+          "required": true,
+          "type": "text",
+          "example": "Harbour Point Marina",
+          "help": "As customers know it."
+        },
+        {
+          "key": "summary",
+          "label": "Summary",
+          "required": true,
+          "type": "text",
+          "example": "Harbour Point Marina serves customers in and around Charlotte, NC.",
+          "help": "One or two sentences, in the business's own words."
+        },
+        {
+          "key": "email",
+          "label": "Public email",
+          "required": true,
+          "type": "email",
+          "example": "hello@example.com",
+          "help": "The address customers may write to."
+        },
+        {
+          "key": "phone",
+          "label": "Public phone",
+          "required": false,
+          "type": "text",
+          "example": "+1 704 555 0100",
+          "help": "With country code."
+        },
+        {
+          "key": "website",
+          "label": "Website",
+          "required": false,
+          "type": "url",
+          "example": "https://example.com",
+          "help": "Full URL."
+        },
+        {
+          "key": "tagline",
+          "label": "What you are",
+          "required": false,
+          "type": "text",
+          "example": "Marinas & Boat Slips in Charlotte",
+          "help": "A few words shown after your name in ChatGPT, e.g. \"Harbor Street Studio – Yoga in Charlotte\". Without it, the plug-in's industry is shown."
+        },
+        {
+          "key": "logo",
+          "label": "Logo URL",
+          "required": false,
+          "type": "url",
+          "example": "https://example.com/logo.png",
+          "help": "Your own logo as an https image, square if you have one. Shown next to your plug-in in the BizPlug portal, and as its icon in ChatGPT."
+        },
+        {
+          "key": "wordmark",
+          "label": "Wide logo URL",
+          "required": false,
+          "type": "url",
+          "example": "https://example.com/logo-wide.png",
+          "help": "Optional: your logo with your name, wider than it is tall, as an https PNG, JPEG or WebP image. From plug-in version 0.25.0 it heads your card in ChatGPT and Claude; without it the card shows the logo above."
+        },
+        {
+          "key": "address",
+          "label": "Address",
+          "required": false,
+          "type": "text",
+          "example": "123 Main St, Charlotte, NC 28202",
+          "help": "Street address, if customers visit."
+        },
+        {
+          "key": "city",
+          "label": "City",
+          "required": false,
+          "type": "text",
+          "example": "Charlotte",
+          "help": ""
+        },
+        {
+          "key": "region",
+          "label": "State or country",
+          "required": false,
+          "type": "text",
+          "example": "NC",
+          "help": ""
+        },
+        {
+          "key": "hours",
+          "label": "Opening hours",
+          "required": false,
+          "type": "text",
+          "example": "Mon-Fri 09:00-17:00; Sat 10:00-14:00",
+          "help": "As shown to customers."
+        },
+        {
+          "key": "currency",
+          "label": "Currency",
+          "required": false,
+          "type": "text",
+          "example": "USD",
+          "help": "ISO code for the prices in the other files."
+        },
+        {
+          "key": "picks_title",
+          "label": "Name for your local picks",
+          "required": false,
+          "type": "text",
+          "example": "Harrison's Suggestions",
+          "help": "Optional, up to 40 characters. Replaces \"Explore the area\" on your card's menu and picks screen. Leave empty to keep Explore the area."
+        },
+        {
+          "key": "notify_email",
+          "label": "Requests go to",
+          "required": false,
+          "type": "email",
+          "example": "orders@example.com",
+          "help": "The team inbox that should receive requests from ChatGPT (not shown to customers)."
+        }
+      ],
+      "collect": [
+        "Copy the name, summary, phone, email, website and address exactly as they appear on the business's website or Google Business Profile.",
+        "Write the summary in the business's own words (one or two sentences). Do not add claims the business does not make.",
+        "Ask the owner which inbox should receive requests from ChatGPT and put it in notify_email."
+      ]
+    },
+    {
+      "id": "inventory",
+      "file": "inventory.csv",
+      "title": "What can be booked (berths)",
+      "why": "The options and published rates the plug-in prices from.",
+      "required": true,
+      "maxRows": 500,
+      "columns": [
+        {
+          "key": "id",
+          "label": "Id",
+          "required": true,
+          "type": "text",
+          "example": "visitor-berth-up-to-12-m",
+          "help": "Short, unique, lowercase with hyphens."
+        },
+        {
+          "key": "name",
+          "label": "Name",
+          "required": true,
+          "type": "text",
+          "example": "Visitor berth up to 12 m",
+          "help": ""
+        },
+        {
+          "key": "rate",
+          "label": "Published rate",
+          "required": true,
+          "type": "number",
+          "example": "45.00",
+          "help": "Per night, day or booking, as the business publishes it."
+        },
+        {
+          "key": "capacity",
+          "label": "Capacity",
+          "required": false,
+          "type": "number",
+          "example": "2",
+          "help": "Most guests or people."
+        },
+        {
+          "key": "description",
+          "label": "Description",
+          "required": false,
+          "type": "text",
+          "example": "",
+          "help": ""
+        },
+        {
+          "key": "day_rates",
+          "label": "Weekday rates",
+          "required": false,
+          "type": "text",
+          "example": "fri:45.00;sat:45.00",
+          "help": "Optional: a different rate on some weekdays, as day:rate separated by semicolons (sun, mon, tue, wed, thu, fri, sat). Shown on the booking calendar from plug-in version 0.29.0."
+        },
+        {
+          "key": "per",
+          "label": "Booked once",
+          "required": false,
+          "type": "text",
+          "example": "",
+          "help": "Optional, from plug-in version 0.41.0, and only where bookings are by the night: leave empty for a room priced per night. Write person or booking for something booked once for the stay, such as an activity or a transfer: the rate is then per person or per booking."
+        },
+        {
+          "key": "start",
+          "label": "Event: first day",
+          "required": false,
+          "type": "date",
+          "example": "",
+          "help": "Optional, from plug-in version 0.42.0, and only where bookings are for one date: the first day of an event with fixed dates, as YYYY-MM-DD. A list with events is shown as an events calendar, month by month."
+        },
+        {
+          "key": "end",
+          "label": "Event: last day",
+          "required": false,
+          "type": "date",
+          "example": "",
+          "help": "Optional: the event's last day, as YYYY-MM-DD. Leave empty for a one-day event."
+        },
+        {
+          "key": "category",
+          "label": "Event: category",
+          "required": false,
+          "type": "text",
+          "example": "",
+          "help": "Optional: the tab the event is filed under, in your own words, such as Football or Workshops."
+        },
+        {
+          "key": "place",
+          "label": "Event: place",
+          "required": false,
+          "type": "text",
+          "example": "",
+          "help": "Optional: where the event is held."
+        },
+        {
+          "key": "featured",
+          "label": "Event: featured",
+          "required": false,
+          "type": "boolean",
+          "example": "",
+          "help": "Optional, from plug-in version 0.44.0: true puts the event in the Featured row above your events calendar. Feature a few, not all."
+        },
+        {
+          "key": "free",
+          "label": "Event: free entry",
+          "required": false,
+          "type": "boolean",
+          "example": "",
+          "help": "Optional: true when entry is free."
+        },
+        {
+          "key": "url",
+          "label": "Event: its own page",
+          "required": false,
+          "type": "url",
+          "example": "",
+          "help": "Optional: the event's own page for tickets or details (https). With one, the plug-in sends people there and takes no request."
+        },
+        {
+          "key": "url_label",
+          "label": "Event: what the page is",
+          "required": false,
+          "type": "text",
+          "example": "",
+          "help": "Optional: Tickets or Website."
+        },
+        {
+          "key": "maps_url",
+          "label": "Event: directions",
+          "required": false,
+          "type": "url",
+          "example": "",
+          "help": "Optional: a directions link (https)."
+        },
+        {
+          "key": "amenities",
+          "label": "Features",
+          "required": false,
+          "type": "text",
+          "example": "",
+          "help": "Optional, from plug-in version 0.48.0 (vacation rentals): what the home has, separated by semicolons, such as Pet friendly;Pool table;Bunk room. Which home fits matches a group's wishes against them; write No pets for a home that takes no dogs."
+        }
+      ],
+      "collect": [
+        "Copy each bookable option and its standard published rate from the website or booking engine.",
+        "Use the rate customers see before discounts. Note in faqs.csv whether taxes and fees are included."
+      ]
+    },
+    {
+      "id": "blocked",
+      "file": "blocked-dates.csv",
+      "title": "Dates not available",
+      "why": "Dates the plug-in should not offer for an option.",
+      "required": false,
+      "maxRows": 2000,
+      "columns": [
+        {
+          "key": "id",
+          "label": "Option id",
+          "required": true,
+          "type": "text",
+          "example": "visitor-berth-up-to-12-m",
+          "help": "An id from inventory.csv."
+        },
+        {
+          "key": "start",
+          "label": "From",
+          "required": true,
+          "type": "date",
+          "example": "2026-12-24",
+          "help": "YYYY-MM-DD."
+        },
+        {
+          "key": "end",
+          "label": "To",
+          "required": true,
+          "type": "date",
+          "example": "2026-12-27",
+          "help": "YYYY-MM-DD, the day after the last blocked night or day."
+        }
+      ],
+      "collect": [
+        "Add closures and sold-out periods the owner knows about. This is not a live calendar; BizPlug confirms each request with the business."
+      ]
+    },
+    {
+      "id": "rates",
+      "file": "rates.csv",
+      "title": "Rates by date",
+      "why": "Seasons and holidays with their own rate (from plug-in version 0.29.0). A date range here wins over the weekday rates and the standard rate.",
+      "required": false,
+      "maxRows": 2000,
+      "columns": [
+        {
+          "key": "id",
+          "label": "Option id",
+          "required": true,
+          "type": "text",
+          "example": "visitor-berth-up-to-12-m",
+          "help": "An id from inventory.csv."
+        },
+        {
+          "key": "start",
+          "label": "From",
+          "required": true,
+          "type": "date",
+          "example": "2026-12-20",
+          "help": "YYYY-MM-DD, the first day at this rate."
+        },
+        {
+          "key": "end",
+          "label": "To",
+          "required": true,
+          "type": "date",
+          "example": "2027-01-03",
+          "help": "YYYY-MM-DD, the last day at this rate."
+        },
+        {
+          "key": "rate",
+          "label": "Rate",
+          "required": true,
+          "type": "number",
+          "example": "45.00",
+          "help": "Per night, day or person, as in inventory.csv."
+        }
+      ],
+      "collect": [
+        "Copy the business's own published seasonal or holiday rates. Only rates customers can see; BizPlug confirms each request with the business."
+      ]
+    },
+    {
+      "id": "services",
+      "file": "services.csv",
+      "title": "Services list",
+      "why": "A short list of what the business offers, used in answers.",
+      "required": false,
+      "maxRows": 100,
+      "columns": [
+        {
+          "key": "service",
+          "label": "Service",
+          "required": true,
+          "type": "text",
+          "example": "Visitor berths by the night and harbour services",
+          "help": "One per row."
+        }
+      ],
+      "collect": [
+        "List the services from the website's services or about page, one per row, short names only."
+      ]
+    },
+    {
+      "id": "faqs",
+      "file": "faqs.csv",
+      "title": "Questions and answers",
+      "why": "The plug-in answers customer questions only from these, so it never guesses.",
+      "required": false,
+      "maxRows": 100,
+      "columns": [
+        {
+          "key": "question",
+          "label": "Question",
+          "required": true,
+          "type": "text",
+          "example": "What are your opening hours?",
+          "help": "How a customer would ask it."
+        },
+        {
+          "key": "answer",
+          "label": "Answer",
+          "required": true,
+          "type": "text",
+          "example": "Monday to Saturday, 9am to 6pm.",
+          "help": "The business's answer, in full sentences."
+        }
+      ],
+      "collect": [
+        "Take the FAQ page of the website first, then policies (cancellation, delivery, payment, parking, accessibility).",
+        "Keep each answer factual and current. Leave out anything the owner has not confirmed."
+      ]
+    },
+    {
+      "id": "places",
+      "file": "places.csv",
+      "title": "Local picks",
+      "why": "Your own recommendations near your homes: where to eat, groceries, the beach, things to do. Guests browse them by category in the card, Plan my stay builds a day-by-day plan from them, and ChatGPT presents them as yours.",
+      "required": false,
+      "maxRows": 150,
+      "columns": [
+        {
+          "key": "name",
+          "label": "Name",
+          "required": true,
+          "type": "text",
+          "example": "Harris Teeter",
+          "help": "The place's name, as it is known."
+        },
+        {
+          "key": "category",
+          "label": "Category",
+          "required": true,
+          "type": "text",
+          "example": "groceries",
+          "help": "One of: groceries, eat, drink, beach, outdoors, activities, shopping, culture, wellness, services."
+        },
+        {
+          "key": "why",
+          "label": "Why we like it",
+          "required": false,
+          "type": "text",
+          "example": "Do the big shop here when you arrive: a full supermarket with a deli and bakery.",
+          "help": "In your own words, one or two sentences. This is what makes a pick yours."
+        },
+        {
+          "key": "distance",
+          "label": "How far",
+          "required": false,
+          "type": "text",
+          "example": "10 min by car",
+          "help": "From your homes, in words."
+        },
+        {
+          "key": "minutes",
+          "label": "Minutes away",
+          "required": false,
+          "type": "number",
+          "example": "10",
+          "help": "The same distance in minutes, to put the nearest first."
+        },
+        {
+          "key": "price",
+          "label": "Price level",
+          "required": false,
+          "type": "text",
+          "example": "$$",
+          "help": "Optional: $ to $$$$, or Free."
+        },
+        {
+          "key": "best_time",
+          "label": "Best time",
+          "required": false,
+          "type": "text",
+          "example": "Before 10:00, when it is quiet",
+          "help": "Optional: when to go."
+        },
+        {
+          "key": "hours",
+          "label": "Opening hours",
+          "required": false,
+          "type": "text",
+          "example": "Daily 6:00 to 23:00",
+          "help": "Optional, as published by the place; guests are told to check before they go."
+        },
+        {
+          "key": "address",
+          "label": "Address",
+          "required": false,
+          "type": "text",
+          "example": "515 Freshfields Dr, Johns Island, SC",
+          "help": "Optional."
+        },
+        {
+          "key": "website",
+          "label": "Website",
+          "required": false,
+          "type": "url",
+          "example": "https://www.harristeeter.com",
+          "help": "Optional, https."
+        },
+        {
+          "key": "maps_url",
+          "label": "Directions",
+          "required": false,
+          "type": "url",
+          "example": "",
+          "help": "Optional: a Google Maps or Apple Maps link (https)."
+        },
+        {
+          "key": "book_url",
+          "label": "Book or reserve",
+          "required": false,
+          "type": "url",
+          "example": "",
+          "help": "Optional: the place's own booking page (https)."
+        },
+        {
+          "key": "image",
+          "label": "Photo",
+          "required": false,
+          "type": "url",
+          "example": "",
+          "help": "Optional: a photo the card may show (https, on storage.googleapis.com)."
+        },
+        {
+          "key": "good_for",
+          "label": "Good for",
+          "required": false,
+          "type": "text",
+          "example": "kids;rainy",
+          "help": "Optional, separated by semicolons: kids, dogs, rainy, couples, groups, sunset, free."
+        },
+        {
+          "key": "offer",
+          "label": "Partner offer",
+          "required": false,
+          "type": "text",
+          "example": "",
+          "help": "Optional: an offer the place gives your guests, as agreed with it, such as 10% off a kayak tour."
+        },
+        {
+          "key": "offer_url",
+          "label": "Offer link",
+          "required": false,
+          "type": "url",
+          "example": "",
+          "help": "Optional: where the guest claims the offer (https)."
+        },
+        {
+          "key": "offer_direct",
+          "label": "Only for direct bookings",
+          "required": false,
+          "type": "boolean",
+          "example": "",
+          "help": "Optional: yes when the offer is only for guests who booked with you directly."
+        }
+      ],
+      "collect": [
+        "Write each pick in the host's own words: why they recommend it, and for whom. Start with groceries and the first dinner.",
+        "Give the distance from the homes in words and in minutes. Never copy reviews or ratings from other sites.",
+        "Add an offer only when the place agreed to it, with the exact terms."
+      ]
+    },
+    {
+      "id": "area",
+      "file": "area.csv",
+      "title": "Area guide",
+      "why": "About the area, its history, a map, getting here and around, the seasons, local rules, essentials and safety. Guests read it in the card and can ask ChatGPT more from each topic.",
+      "required": false,
+      "maxRows": 40,
+      "columns": [
+        {
+          "key": "topic",
+          "label": "Topic",
+          "required": true,
+          "type": "text",
+          "example": "arrival",
+          "help": "One of: about, history, map, arrival, around, seasons, rules, essentials, safety."
+        },
+        {
+          "key": "title",
+          "label": "Title",
+          "required": true,
+          "type": "text",
+          "example": "Getting here",
+          "help": ""
+        },
+        {
+          "key": "text",
+          "label": "Text",
+          "required": true,
+          "type": "text",
+          "example": "Charleston International Airport (CHS) is about 32 miles away; Island Transportation does transfers.",
+          "help": "A short paragraph in your own words."
+        },
+        {
+          "key": "map_url",
+          "label": "Map link",
+          "required": false,
+          "type": "url",
+          "example": "",
+          "help": "Optional: a map page (https), such as Google Maps or the area's own map."
+        },
+        {
+          "key": "image",
+          "label": "Picture",
+          "required": false,
+          "type": "url",
+          "example": "",
+          "help": "Optional (https, on storage.googleapis.com)."
+        },
+        {
+          "key": "questions",
+          "label": "Questions to ask ChatGPT",
+          "required": false,
+          "type": "text",
+          "example": "",
+          "help": "Optional, separated by semicolons: questions the guest can send to the chat from this topic, where ChatGPT answers from what it knows and the web, not from you."
+        }
+      ],
+      "collect": [
+        "Write what a guest needs before and during the stay, in the host's words. Rules (gate passes, beach rules) as the area publishes them."
+      ]
+    },
+    {
+      "id": "events",
+      "file": "events.csv",
+      "title": "What's on",
+      "why": "Events near your homes. Guests see the ones on their dates, and Plan my stay puts them in the plan.",
+      "required": false,
+      "maxRows": 100,
+      "columns": [
+        {
+          "key": "name",
+          "label": "Event",
+          "required": true,
+          "type": "text",
+          "example": "Holiday Festival of Lights",
+          "help": ""
+        },
+        {
+          "key": "start",
+          "label": "First day",
+          "required": true,
+          "type": "date",
+          "example": "2026-11-13",
+          "help": "YYYY-MM-DD."
+        },
+        {
+          "key": "end",
+          "label": "Last day",
+          "required": false,
+          "type": "date",
+          "example": "2027-01-01",
+          "help": "YYYY-MM-DD; empty for one day."
+        },
+        {
+          "key": "place",
+          "label": "Where",
+          "required": false,
+          "type": "text",
+          "example": "James Island County Park",
+          "help": ""
+        },
+        {
+          "key": "description",
+          "label": "What it is",
+          "required": false,
+          "type": "text",
+          "example": "",
+          "help": "One sentence."
+        },
+        {
+          "key": "url",
+          "label": "Its own page",
+          "required": false,
+          "type": "url",
+          "example": "",
+          "help": "https."
+        }
+      ],
+      "collect": [
+        "List only events with published dates, from the organiser's own page. Remove past ones."
+      ]
+    },
+    {
+      "id": "house",
+      "file": "house.csv",
+      "title": "House guide",
+      "why": "How things work in your homes: the stove, oven, grill, washer and dryer, coffee maker, heating, TV, check-in, rules and checkout. Guests find the answer in the card instead of messaging you.",
+      "required": false,
+      "maxRows": 120,
+      "columns": [
+        {
+          "key": "topic",
+          "label": "Topic",
+          "required": true,
+          "type": "text",
+          "example": "kitchen",
+          "help": "One of: kitchen, laundry, outdoor, comfort, arrival, rules, checkout, other."
+        },
+        {
+          "key": "title",
+          "label": "Title",
+          "required": true,
+          "type": "text",
+          "example": "Gas grill",
+          "help": "The appliance or thing."
+        },
+        {
+          "key": "text",
+          "label": "How it works",
+          "required": true,
+          "type": "text",
+          "example": "Open the propane valve, press and turn a burner knob to light it.",
+          "help": "Step by step, in your own words."
+        },
+        {
+          "key": "homes",
+          "label": "Which homes",
+          "required": false,
+          "type": "text",
+          "example": "",
+          "help": "Optional: home ids from your homes file, separated by semicolons. Empty means every home."
+        },
+        {
+          "key": "image",
+          "label": "Photo",
+          "required": false,
+          "type": "url",
+          "example": "",
+          "help": "Optional (https, on storage.googleapis.com)."
+        }
+      ],
+      "collect": [
+        "Never put door codes, Wi-Fi passwords or alarm codes here: they are sent to the guest privately before arrival."
+      ]
+    },
+    {
+      "id": "harbour",
+      "file": "harbour.csv",
+      "title": "Harbour services",
+      "why": "What the marina offers boats and crews: fuel, water, shore power, showers, laundry, repairs and haul-out, with where and when. One row per service; people search them in the plug-in.",
+      "required": false,
+      "maxRows": 500,
+      "columns": [
+        {
+          "key": "name",
+          "label": "Service",
+          "required": true,
+          "type": "text",
+          "example": "Fuel dock",
+          "help": ""
+        },
+        {
+          "key": "kind",
+          "label": "Kind",
+          "required": false,
+          "type": "text",
+          "example": "Fuel",
+          "help": "Use the same words for the same value: people filter by it."
+        },
+        {
+          "key": "where",
+          "label": "Where",
+          "required": false,
+          "type": "text",
+          "example": "Pontoon A",
+          "help": "Use the same words for the same value: people filter by it."
+        },
+        {
+          "key": "hours",
+          "label": "Hours",
+          "required": false,
+          "type": "text",
+          "example": "Daily 08:00 to 18:00",
+          "help": ""
+        },
+        {
+          "key": "price",
+          "label": "Price",
+          "required": false,
+          "type": "text",
+          "example": "Diesel at the posted pump price",
+          "help": ""
+        },
+        {
+          "key": "about",
+          "label": "About it",
+          "required": false,
+          "type": "text",
+          "example": "Diesel and petrol for boats up to 15 m. Call the office on channel 9 before coming alongside.",
+          "help": "A few sentences."
+        },
+        {
+          "key": "page",
+          "label": "More information",
+          "required": false,
+          "type": "url",
+          "example": "https://www.example.com/marina/fuel",
+          "help": "A full https address."
+        }
+      ],
+      "collect": [
+        "List each service you publish, one per row, with the columns above.",
+        "Only what you would publish on your own website: nothing about a person that they did not agree to share."
+      ]
+    },
+    {
+      "id": "social",
+      "file": "social.csv",
+      "title": "Social media",
+      "why": "Where to follow you, and your latest posts with their pictures, shown under Social media in the plug-in. Feeds (YouTube, podcast, blog, Substack, Medium, Bluesky, Mastodon) are read automatically; for LinkedIn, Instagram, X, Facebook and TikTok you pin the posts you want shown. From plug-in version 0.35.0 a YouTube video plays inside the card.",
+      "required": false,
+      "maxRows": 60,
+      "columns": [
+        {
+          "key": "kind",
+          "label": "Kind",
+          "required": true,
+          "type": "text",
+          "example": "follow",
+          "help": "\"follow\" for a profile to follow, \"feed\" for a public feed BizPlug reads (YouTube channel, podcast or blog RSS, Substack, Medium, Bluesky or Mastodon profile), \"post\" for one post you pin."
+        },
+        {
+          "key": "network",
+          "label": "Network",
+          "required": false,
+          "type": "text",
+          "example": "instagram",
+          "help": "instagram, linkedin, facebook, x, tiktok, youtube, threads, bluesky, mastodon, podcast, blog, substack, medium, pinterest or whatsapp. Left empty, it is read from the address."
+        },
+        {
+          "key": "url",
+          "label": "Address",
+          "required": true,
+          "type": "url",
+          "example": "https://www.instagram.com/yourbusiness/",
+          "help": "The profile, the feed or the post, as an https address."
+        },
+        {
+          "key": "image",
+          "label": "Picture",
+          "required": false,
+          "type": "url",
+          "example": "https://example.com/post.jpg",
+          "help": "For a pinned post: its picture, an https PNG, JPEG or WebP image."
+        },
+        {
+          "key": "text",
+          "label": "Text",
+          "required": false,
+          "type": "text",
+          "example": "Our new menu is here.",
+          "help": "For a pinned post: its caption, or the first lines of it."
+        },
+        {
+          "key": "date",
+          "label": "Date",
+          "required": false,
+          "type": "text",
+          "example": "2026-11-20",
+          "help": "For a pinned post: YYYY-MM-DD."
+        }
+      ],
+      "collect": [
+        "Take the profiles from the links on the business's own website (header or footer).",
+        "Add a feed row for a YouTube channel, a podcast or blog RSS, a Substack, Medium, Bluesky or Mastodon profile; its latest posts appear by themselves.",
+        "Pin a few recent posts from LinkedIn, Instagram, X, Facebook or TikTok with their own picture and text: only posts the business published.",
+        "A pinned post may also be one of the business's own YouTube videos (a watch, youtu.be or Shorts address): it plays inside the card, and needs no picture."
+      ]
+    }
+  ],
+  "never": [
+    "Passwords, API keys or other secrets.",
+    "Card numbers, bank details or government ID numbers.",
+    "Customers' personal data (names, phone numbers, addresses, health or financial details).",
+    "The plug-in's own rule: Never give navigation, weather or tide advice; the harbour master confirms every berth and arrival time."
+  ]
+}

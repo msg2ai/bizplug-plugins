@@ -4,7 +4,7 @@
 
 Published by **Bart Cant - msg2ai**.
 
-The standard BizPlug plug-in for each of 88 industries. A plug-in is an MCP (Model Context Protocol) server, hosted by BizPlug, that lets a business's customers ask questions and send orders, bookings or requests from inside ChatGPT. The business confirms every request itself. Customers pay the business directly: a Pay online button after a request opens the business's own payment page (Stripe is the official payment provider; PayPal, Square and other payment pages work too), and the money never passes through BizPlug.
+The standard BizPlug plug-in for each of 89 industries. A plug-in is an MCP (Model Context Protocol) server, hosted by BizPlug, that lets a business's customers ask questions and send orders, bookings or requests from inside ChatGPT. The business confirms every request itself. Customers pay the business directly: a Pay online button after a request opens the business's own payment page (Stripe is the official payment provider; PayPal, Square and other payment pages work too), and the money never passes through BizPlug.
 
 This repository holds the plug-in **packages**: what each plug-in is called, what its tools do, where its server lives and what data a business provides to get its own copy. It is generated from the BizPlug website's data files on every release, so please do not edit it by hand. It also holds the source files those packages are generated from (see below). The server that answers the tools and all business data are not part of this repository.
 
@@ -14,13 +14,13 @@ Everyone who builds a plug-in for BizPlug starts in this repository. First decid
 
 | Your idea | What you do here |
 | --- | --- |
-| **A business** that fits one of the 88 industries below (a yoga studio is Fitness & Gyms, a vegan restaurant is Restaurants & Food Service) | Nothing here: the business signs up at https://www.bizplug.ai/portal, picks its industry and gets its own plug-in |
+| **A business** that fits one of the 89 industries below (a yoga studio is Fitness & Gyms, a vegan restaurant is Restaurants & Food Service) | Nothing here: the business signs up at https://www.bizplug.ai/portal, picks its industry and gets its own plug-in |
 | **A new industry**: what its customers do, or the words its plug-in needs, fit none of the industries | **One JSON file**, `community/industries/<slug>.json`. No code: the file defines the plug-in, and BizPlug serves it. Steps below |
 | **Your own MCP server or tool** (open source, or one you host) | A package in `community/plugins/<name>/`: see [CONTRIBUTING.md](CONTRIBUTING.md) |
 
 **A new industry, step by step**
 
-1. **Start the file.** [**Create it in your browser**](https://github.com/msg2ai/bizplug-plugins/new/main?filename=community%2Findustries%2Fmy-industry.json&value=%7B%0A%20%20%22slug%22%3A%20%22my-industry%22%2C%0A%20%20%22name%22%3A%20%22My%20Industry%22%2C%0A%20%20%22group%22%3A%20%22Retail%20%26%20food%22%2C%0A%20%20%22engine%22%3A%20%22appt%22%2C%0A%20%20%22title%22%3A%20%22What%20the%20plug-in%20mainly%20does%22%2C%0A%20%20%22tools%22%3A%20%7B%0A%20%20%20%20%22lookup%22%3A%20%22find_open_times%22%2C%0A%20%20%20%20%22request%22%3A%20%22request_a_booking%22%2C%0A%20%20%20%20%22status%22%3A%20%22get_booking_status%22%0A%20%20%7D%2C%0A%20%20%22noun%22%3A%20%22booking%22%2C%0A%20%20%22ask%22%3A%20%22A%20question%20a%20customer%20would%20ask%3F%22%2C%0A%20%20%22covers%22%3A%20%22what%20customers%20ask%20about%2C%20such%20as%20services%2C%20prices%20and%20opening%20hours%22%2C%0A%20%20%22example%22%3A%20%7B%0A%20%20%20%20%22business%22%3A%20%22A%20made-up%20business%22%2C%0A%20%20%20%20%22item%22%3A%20%22One%20thing%20it%20offers%22%2C%0A%20%20%20%20%22price%22%3A%20%2220.00%22%0A%20%20%7D%2C%0A%20%20%22author%22%3A%20%22Your%20name%20or%20company%22%2C%0A%20%20%22github%22%3A%20%22your-github-username%22%0A%7D%0A): GitHub opens its editor with a starter file, makes your own copy of this repository (a fork) and, when you commit, offers to open the pull request. Or, with Git and Node.js, fork, clone, and copy [`industries/example.json`](industries/example.json).
+1. **Start the file.** [**Create it in your browser**](https://github.com/msg2ai/bizplug-plugins/new/main?filename=community%2Findustries%2Fmy-industry.json&value=%7B%0A%20%20%22%24schema%22%3A%20%22https%3A%2F%2Fraw.githubusercontent.com%2Fmsg2ai%2Fbizplug-plugins%2Fmain%2Findustries%2Findustry.schema.json%22%2C%0A%20%20%22slug%22%3A%20%22my-industry%22%2C%0A%20%20%22name%22%3A%20%22My%20Industry%22%2C%0A%20%20%22group%22%3A%20%22Retail%20%26%20food%22%2C%0A%20%20%22engine%22%3A%20%22appt%22%2C%0A%20%20%22title%22%3A%20%22What%20the%20plug-in%20mainly%20does%22%2C%0A%20%20%22tools%22%3A%20%7B%0A%20%20%20%20%22lookup%22%3A%20%22find_open_times%22%2C%0A%20%20%20%20%22request%22%3A%20%22request_a_booking%22%2C%0A%20%20%20%20%22status%22%3A%20%22get_booking_status%22%0A%20%20%7D%2C%0A%20%20%22noun%22%3A%20%22booking%22%2C%0A%20%20%22ask%22%3A%20%22A%20question%20a%20customer%20would%20ask%3F%22%2C%0A%20%20%22covers%22%3A%20%22what%20customers%20ask%20about%2C%20such%20as%20services%2C%20prices%20and%20opening%20hours%22%2C%0A%20%20%22example%22%3A%20%7B%0A%20%20%20%20%22business%22%3A%20%22A%20made-up%20business%22%2C%0A%20%20%20%20%22item%22%3A%20%22One%20thing%20it%20offers%22%2C%0A%20%20%20%20%22price%22%3A%20%2220.00%22%0A%20%20%7D%2C%0A%20%20%22author%22%3A%20%22Your%20name%20or%20company%22%2C%0A%20%20%22github%22%3A%20%22your-github-username%22%0A%7D%0A): GitHub opens its editor with a starter file, makes your own copy of this repository (a fork) and, when you commit, offers to open the pull request. Or, with Git and Node.js, fork, clone, and copy [`industries/example.json`](industries/example.json). **Want lists to pick from?** Open the file in an editor that reads JSON Schema, such as VS Code or github.dev (press `.` on any page of this repository): every field then offers its allowed values as you type and marks a wrong one, from [`industries/industry.schema.json`](industries/industry.schema.json), which the starter file already points to.
 2. **Write what your plug-in does.** Pick the engine (what customers mainly do: order, book dates, book a time, ask for a quote, follow a request), name its three tools and the words customers use. Then, optionally, make it richer with no code: switch on existing **options**, define your own searchable **collections** (a shop's bikes for sale), name the menu in your **own words**, and give every business **request forms** (a warranty claim). [`industries/example.json`](industries/example.json), a bike shop, uses each of them; [INDUSTRIES.md](INDUSTRIES.md#add-a-new-industry) explains every field.
 3. **Open the pull request** against `main`, adding only your file. Its checklist asks which existing industry is closest and why it does not fit.
 4. **Read what the checks say.** **Check contributions** runs the same check as `npx tsx industries/check-industry.ts community/industries/<slug>.json` and lists what to fix. **Test industry proposals** builds your industry as a working plug-in for a made-up sample business at `https://mcp-test.bizplug.ai/plugin/proposal/<pull request number>` and comments the address on your pull request. Each new commit updates both.
@@ -162,7 +162,7 @@ Not on GitHub? Use the forms instead: [Propose a card theme](https://github.com/
 
 ## Version 0.65.0
 
-All 88 plug-ins share one version. What changed in each:
+All 89 plug-ins share one version. What changed in each:
 
 - **0.65.0** (28 November 2026): The concierge speaks your industry's words: a marina's picks and its berths, not a host's and homes.
 - **0.64.0** (28 November 2026): Industry forms: request forms your industry gives every business, such as a warranty claim, sent to your own inbox.
@@ -246,7 +246,7 @@ The plug-ins BizPlug serves besides the industry plug-ins, newest first, as on h
 | [gener8tor Charlotte Startups for Investors](plugins/gener8tor-charlotte) | Startup directory | 2026-11-15 | Find the gBETA Charlotte startups that match your investment thesis. | `https://mcp.bizplug.ai/plugin/startups/gener8tor-charlotte` |
 | [Web Summit Qatar Startups for Investors](plugins/websummit-qatar) | Startup directory | 2026-11-14 | Find Web Summit Qatar 2026 startups that match your investment thesis. | `https://mcp.bizplug.ai/plugin/startups/websummit-qatar` |
 
-## The 88 industry plug-ins
+## The 89 industry plug-ins
 
 The standard plug-in of each industry, as on https://www.bizplug.ai/plugins/industries. A business gets its own copy, built from its profile.
 
@@ -345,6 +345,7 @@ The standard plug-in of each industry, as on https://www.bizplug.ai/plugins/indu
 | [Wedding & Events Pros](plugins/wedding-services) | Check your date and request a consultation | `https://mcp.bizplug.ai/plugin/wedding-services` |
 | [Photography & Creative](plugins/photography) | Book a shoot or consultation | `https://mcp.bizplug.ai/plugin/photography` |
 | [Activity Calendar](plugins/activity-calendar) | Activities by date, with places per person | `https://mcp.bizplug.ai/plugin/activity-calendar` |
+| [Marinas & Boat Slips](plugins/marinas) | Visitor berths by the night and harbour services | `https://mcp.bizplug.ai/plugin/marinas` |
 | [Tourism Bureaus & Destinations](plugins/tourism-bureaus) | Places to stay and things to do, with booking requests | `https://mcp.bizplug.ai/plugin/tourism-bureaus` |
 
 ### Finance & B2B

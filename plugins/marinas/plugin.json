@@ -1,0 +1,88 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "bizplug-marinas",
+  "version": "0.65.0",
+  "description": "The marinas & boat slips plug-in from BizPlug. Main function: visitor berths by the night and harbour services. It works from the business's own published profile, covering visitor berths and nightly rates, boat length limits, fuel, water and shore power, showers and laundry, haul-out and the harbour area, and sends requests to the business to confirm. It never takes payment and only shares what the business has published. Never give navigation, weather or tide advice; the harbour master confirms every berth and arrival time. Provided by BizPlug: https://www.bizplug.ai, info@bizplug.ai.",
+  "author": {
+    "name": "Bart Cant - msg2ai",
+    "email": "info@bizplug.ai",
+    "url": "https://www.bizplug.ai"
+  },
+  "homepage": "https://www.bizplug.ai/industries/marinas",
+  "repository": "https://github.com/msg2ai/bizplug-plugins",
+  "mcpServers": "./mcp.json",
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "BizPlug Marinas & Boat Slips",
+        "shortDescription": "Visitor berths by the night and harbour services for marinas & boat slips businesses.",
+        "longDescription": "The marinas & boat slips plug-in from BizPlug. Main function: visitor berths by the night and harbour services. It works from the business's own published profile, covering visitor berths and nightly rates, boat length limits, fuel, water and shore power, showers and laundry, haul-out and the harbour area, and sends requests to the business to confirm. It never takes payment and only shares what the business has published. Never give navigation, weather or tide advice; the harbour master confirms every berth and arrival time. Provided by BizPlug: https://www.bizplug.ai, info@bizplug.ai.",
+        "defaultPrompt": [
+          "Visitor berths by the night and harbour services",
+          "Is there a visitor berth for a 12 m sailboat this Friday and Saturday?",
+          "How do I contact the business?"
+        ],
+        "category": "Business",
+        "websiteURL": "https://www.bizplug.ai/industries/marinas",
+        "privacyPolicyURL": "https://www.bizplug.ai/privacy",
+        "termsOfServiceURL": "https://www.bizplug.ai/terms",
+        "developerName": "BizPlug",
+        "supportURL": "https://www.bizplug.ai/contact",
+        "supportEmail": "info@bizplug.ai",
+        "brandColor": "#d4ff3a",
+        "logo": "./assets/icon.png",
+        "composerIcon": "./assets/icon.png"
+      },
+      "review": {
+        "commerce": false,
+        "test_cases": [
+          {
+            "prompt": "What can this plug-in do?",
+            "expect": "Calls show_menu, which shows the menu card; does not list the options again, or lists them exactly as returned where there is no card.",
+            "shouldTrigger": true
+          },
+          {
+            "prompt": "Visitor berths by the night and harbour services",
+            "expect": "Calls check_berth_availability and answers from the published profile.",
+            "shouldTrigger": true
+          },
+          {
+            "prompt": "Is there a visitor berth for a 12 m sailboat this Friday and Saturday?",
+            "expect": "Answers from the business profile, or says it is not covered and offers contact details.",
+            "shouldTrigger": true
+          },
+          {
+            "prompt": "Go ahead and send it.",
+            "expect": "Calls request_berth_booking only after the customer has confirmed the details, and reports that the business still has to confirm.",
+            "shouldTrigger": true
+          },
+          {
+            "prompt": "Where should we eat near the house? We have two kids.",
+            "expect": "Calls explore_area and gives the host's own picks as the host's, nearest first, or says the host has not published them; labels anything it adds as its own.",
+            "shouldTrigger": true
+          },
+          {
+            "prompt": "Plan 4 days for us from 12 to 16 June, two adults, three kids and a dog.",
+            "expect": "Calls plan_stay with the dates and the group and shows the day-by-day plan from the host's picks with the homes that fit and their price for the stay; offers to check availability and book. Books nothing.",
+            "shouldTrigger": true
+          },
+          {
+            "prompt": "How do I use the washing machine?",
+            "expect": "Calls get_house_guide and answers only from the host's house guide, or says it is not covered and offers the host's contact; never guesses.",
+            "shouldTrigger": true
+          },
+          {
+            "prompt": "Write me a poem about the ocean.",
+            "expect": "Does not call any tool.",
+            "shouldTrigger": false
+          }
+        ],
+        "demo_recording_url": null
+      },
+      "publication": {
+        "status": "draft",
+        "pricing": "$24.99/month or $199/year"
+      }
+    }
+  }
+}

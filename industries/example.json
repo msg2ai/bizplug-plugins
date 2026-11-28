@@ -1,4 +1,5 @@
 {
+  "$schema": "https://raw.githubusercontent.com/msg2ai/bizplug-plugins/main/industries/industry.schema.json",
   "slug": "bicycle-shops",
   "name": "Bicycle Shops & Repair",
   "group": "Retail & food",

@@ -27804,6 +27804,748 @@
         }
       ]
     },
+    "marinas": {
+      "name": "Marinas & Boat Slips",
+      "engine": "stay",
+      "url": "https://mcp.bizplug.ai/plugin/marinas",
+      "tools": [
+        {
+          "name": "show_menu",
+          "title": "Menu",
+          "description": "Return this plug-in's menu: what the customer can do here, each with a short title, a one-line description and a question to try. Creates nothing.",
+          "rules": [
+            "Call it when the customer asks what this can do, asks for a menu or options, or opens without a question.",
+            "ChatGPT shows the menu as a card with a button and a short form for each option.",
+            "Where there is no card, show the options exactly as returned (same titles, same order)."
+          ],
+          "readOnly": true,
+          "when": null,
+          "inputSchema": {
+            "type": "object",
+            "properties": {}
+          }
+        },
+        {
+          "name": "check_berth_availability",
+          "title": "Find a berth",
+          "description": "Check which berth options are free for the customer's dates and party size, with the published rate and total price. Creates nothing. The harbour master confirms every berth and arrival time.",
+          "rules": [
+            "Never give navigation, weather or tide advice."
+          ],
+          "readOnly": true,
+          "when": null,
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "business": {
+                "type": "string",
+                "description": "The business's BizPlug slug. Ask the customer which business they mean if unknown."
+              },
+              "start": {
+                "type": "string",
+                "description": "Check-in date, as YYYY-MM-DD."
+              },
+              "end": {
+                "type": "string",
+                "description": "Check-out date, as YYYY-MM-DD."
+              },
+              "guests": {
+                "type": "integer",
+                "minimum": 1,
+                "description": "Number of people."
+              },
+              "adults": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 27,
+                "description": "Number of adults. Use with children instead of guests."
+              },
+              "children": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 18,
+                "description": "Number of children (default 0)."
+              },
+              "rooms": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 9,
+                "description": "How many rooms of the same type (default 1)."
+              },
+              "month": {
+                "type": "string",
+                "description": "YYYY-MM: the calendar month to show, when no dates are chosen yet."
+              }
+            },
+            "required": [
+              "business"
+            ]
+          }
+        },
+        {
+          "name": "request_berth_booking",
+          "title": "Book a berth",
+          "description": "Send a booking request for the chosen berth and dates to the business. The business confirms; nothing is held or charged in chat. The harbour master confirms every berth and arrival time.",
+          "rules": [
+            "Use only once the customer has chosen an option.",
+            "Never give navigation, weather or tide advice."
+          ],
+          "readOnly": false,
+          "when": null,
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "business": {
+                "type": "string",
+                "description": "The business's BizPlug slug. Ask the customer which business they mean if unknown."
+              },
+              "option": {
+                "type": "string",
+                "description": "The berth id chosen from the availability result."
+              },
+              "start": {
+                "type": "string",
+                "description": "Check-in date, as YYYY-MM-DD."
+              },
+              "end": {
+                "type": "string",
+                "description": "Check-out date, as YYYY-MM-DD."
+              },
+              "guests": {
+                "type": "integer",
+                "minimum": 1,
+                "description": "Number of people."
+              },
+              "name": {
+                "type": "string",
+                "description": "Customer's name."
+              },
+              "email": {
+                "type": "string",
+                "description": "Email the business can reply to."
+              },
+              "phone": {
+                "type": "string",
+                "description": "Optional phone number."
+              },
+              "notes": {
+                "type": "string",
+                "description": "Anything else the business should know."
+              },
+              "adults": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 27,
+                "description": "Number of adults. Use with children instead of guests."
+              },
+              "children": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 18,
+                "description": "Number of children (default 0)."
+              },
+              "rooms": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 9,
+                "description": "How many rooms of the same type (default 1)."
+              }
+            },
+            "required": [
+              "business",
+              "option",
+              "start",
+              "name",
+              "email"
+            ]
+          }
+        },
+        {
+          "name": "get_berth_booking_status",
+          "title": "Berth booking",
+          "description": "Look up the status of a booking request by its reference.",
+          "rules": [],
+          "readOnly": true,
+          "when": null,
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "business": {
+                "type": "string",
+                "description": "The business's BizPlug slug. Ask the customer which business they mean if unknown."
+              },
+              "reference": {
+                "type": "string",
+                "description": "The reference returned when the request was made, e.g. BP-7K2Q9D."
+              }
+            },
+            "required": [
+              "business",
+              "reference"
+            ]
+          }
+        },
+        {
+          "name": "get_business_info",
+          "title": "Business information",
+          "description": "Answer a general question about this marinas & boat slips business using only its published profile: visitor berths and nightly rates, boat length limits, fuel, water and shore power, showers and laundry, haul-out and the harbour area. Creates nothing. The harbour master confirms every berth and arrival time.",
+          "rules": [
+            "If the profile does not cover the question, say so and use get_contact.",
+            "Never give navigation, weather or tide advice."
+          ],
+          "readOnly": true,
+          "when": null,
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "business": {
+                "type": "string",
+                "description": "The business's BizPlug slug. Ask the customer which business they mean if unknown."
+              },
+              "question": {
+                "type": "string",
+                "description": "The customer's question, in their words."
+              },
+              "section": {
+                "type": "string",
+                "enum": [
+                  "committees",
+                  "news",
+                  "social"
+                ],
+                "description": "Optional: \"committees\" for the business's committees, \"news\" for its news, events and newsletter, \"social\" for its latest social media posts and where to follow it. Leave out for everything else."
+              }
+            },
+            "required": [
+              "business"
+            ]
+          }
+        },
+        {
+          "name": "get_contact",
+          "title": "Contact details",
+          "description": "Return the business's published contact details and opening hours for anything the other tools cannot do.",
+          "rules": [],
+          "readOnly": true,
+          "when": null,
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "business": {
+                "type": "string",
+                "description": "The business's BizPlug slug. Ask the customer which business they mean if unknown."
+              }
+            },
+            "required": [
+              "business"
+            ]
+          }
+        },
+        {
+          "name": "open_form",
+          "title": "Open a form",
+          "description": "Open one of this marinas & boat slips business's own forms (an application, registration, survey or intake form it published in Google Forms, Typeform, Jotform, Tally or another form tool) as a link with what the customer already said filled in. Nothing is submitted: the customer checks the form and submits it on the form tool's page.",
+          "rules": [
+            "Use it when the customer wants to apply, register, sign up, give feedback or do what one of the forms is for."
+          ],
+          "readOnly": true,
+          "when": "Only when the business linked forms of its own.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "business": {
+                "type": "string",
+                "description": "The business's BizPlug slug. Ask the customer which business they mean if unknown."
+              },
+              "form": {
+                "type": "string",
+                "description": "The form's id or title, from the business's forms."
+              },
+              "name": {
+                "type": "string",
+                "description": "The customer's name, when they gave it."
+              },
+              "email": {
+                "type": "string",
+                "description": "The customer's email, when they gave it."
+              },
+              "phone": {
+                "type": "string",
+                "description": "The customer's phone, when they gave it."
+              },
+              "date": {
+                "type": "string",
+                "description": "A date the form asks for, as YYYY-MM-DD, when the customer gave it."
+              },
+              "details": {
+                "type": "string",
+                "description": "What the customer said the form is about, in their words."
+              }
+            },
+            "required": [
+              "form"
+            ]
+          }
+        },
+        {
+          "name": "find_harbour_services",
+          "title": "Harbour services",
+          "description": "Search the harbour services this marinas & boat slips business published: What the marina offers boats and crews: fuel, water, shore power, showers, laundry, repairs and haul-out, with where and when. Returns each service with what the business lists for it. Creates nothing.",
+          "rules": [],
+          "readOnly": true,
+          "when": "Only when the business published its harbour services (harbour.csv).",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "business": {
+                "type": "string",
+                "description": "The business's BizPlug slug. Ask the customer which business they mean if unknown."
+              },
+              "query": {
+                "type": "string",
+                "description": "Optional words to look for in the service names and in service, about it."
+              },
+              "kind": {
+                "type": "string",
+                "description": "Optional: one of the business's own kind values, to show only those."
+              },
+              "where": {
+                "type": "string",
+                "description": "Optional: one of the business's own where values, to show only those."
+              },
+              "id": {
+                "type": "string",
+                "description": "Optional: one service's id or exact name, to open only that one."
+              }
+            },
+            "required": [
+              "business"
+            ]
+          }
+        },
+        {
+          "name": "check_direct_offer",
+          "title": "Direct offer from the host's website",
+          "description": "Ask this marinas & boat slips business's own website for its signed offer for one stay (Vacation Rental Protocol): whether it is free, the exact total, the price of each night, check-in and check-out times, house rules, the cancellation refund terms and the host's own booking link. BizPlug checks the offer before it is returned: signed with the keys the website publishes, for exactly these dates and guests, and not expired. Only the dates and the number of guests are sent to the website. Creates nothing: the customer books on the returned link.",
+          "rules": [
+            "An offer that cannot be checked is returned as unknown and nothing from it may be quoted.",
+            "Use it when the customer gives dates and a guest count and asks whether the home is free, what it costs or how to book."
+          ],
+          "readOnly": true,
+          "when": "Only when the business's own website gives signed offers by the Vacation Rental Protocol, and the BizPlug team has set up its domain.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "business": {
+                "type": "string",
+                "description": "The business's BizPlug slug. Ask the customer which business they mean if unknown."
+              },
+              "check_in": {
+                "type": "string",
+                "description": "Arrival date, as YYYY-MM-DD."
+              },
+              "check_out": {
+                "type": "string",
+                "description": "Departure date, as YYYY-MM-DD; after check_in."
+              },
+              "guests": {
+                "type": "integer",
+                "minimum": 1,
+                "description": "How many guests stay."
+              }
+            },
+            "required": [
+              "business",
+              "check_in",
+              "check_out",
+              "guests"
+            ]
+          }
+        },
+        {
+          "name": "explore_area",
+          "title": "Ashore",
+          "description": "The host's own local picks near its homes: where to eat, groceries, beaches and pools, things to do, shopping, day trips and services, each with why the host recommends it, how far it is, the best time to go and any partner offer. Optional category, good_for (kids, dogs, rainy, couples, groups, sunset, free) and query. Read-only.",
+          "rules": [
+            "Use it for any question about what to do, where to eat or what is nearby."
+          ],
+          "readOnly": true,
+          "when": "Only when the host published its local picks (places.csv).",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "business": {
+                "type": "string",
+                "description": "The business's BizPlug slug. Ask the customer which business they mean if unknown."
+              },
+              "category": {
+                "type": "string",
+                "enum": [
+                  "groceries",
+                  "eat",
+                  "drink",
+                  "beach",
+                  "outdoors",
+                  "activities",
+                  "shopping",
+                  "culture",
+                  "wellness",
+                  "services"
+                ],
+                "description": "Optional: one category of the host's picks."
+              },
+              "good_for": {
+                "type": "string",
+                "enum": [
+                  "kids",
+                  "dogs",
+                  "rainy",
+                  "couples",
+                  "groups",
+                  "sunset",
+                  "free"
+                ],
+                "description": "Optional: only picks the host marked good for this."
+              },
+              "query": {
+                "type": "string",
+                "description": "Optional: words to look for, such as pizza or kayak."
+              }
+            },
+            "required": [
+              "business"
+            ]
+          }
+        },
+        {
+          "name": "get_area_guide",
+          "title": "Area guide and events",
+          "description": "The host's area guide (about the area, its history, a map, getting there and around, seasons, local rules, essentials, safety) and the events it lists, matched to the guest's dates when start and end are given. Optional topic. Read-only.",
+          "rules": [],
+          "readOnly": true,
+          "when": "Only when the host published an area guide or events (area.csv, events.csv).",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "business": {
+                "type": "string",
+                "description": "The business's BizPlug slug. Ask the customer which business they mean if unknown."
+              },
+              "topic": {
+                "type": "string",
+                "description": "Optional: one topic (about, history, map, arrival, around, seasons, rules, essentials, safety) or words to look for."
+              },
+              "start": {
+                "type": "string",
+                "description": "Arrival date, YYYY-MM-DD."
+              },
+              "end": {
+                "type": "string",
+                "description": "Departure date, YYYY-MM-DD."
+              }
+            },
+            "required": [
+              "business"
+            ]
+          }
+        },
+        {
+          "name": "get_house_guide",
+          "title": "Your berth: how it works",
+          "description": "How things work in the host's homes, as the host explains them: the stove and oven, grill, washer and dryer, coffee maker, heating and cooling, TV, check-in, house rules and checkout. Optional home and query (\"grill\", \"washing machine\"). Read-only.",
+          "rules": [
+            "Never guess how an appliance works."
+          ],
+          "readOnly": true,
+          "when": "Only when the host published a house guide (house.csv).",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "business": {
+                "type": "string",
+                "description": "The business's BizPlug slug. Ask the customer which business they mean if unknown."
+              },
+              "home": {
+                "type": "string",
+                "description": "Optional: the home the guest stays in, by id or name."
+              },
+              "query": {
+                "type": "string",
+                "description": "Optional: what they ask about, such as grill, washer, oven or Wi-Fi."
+              }
+            },
+            "required": [
+              "business"
+            ]
+          }
+        },
+        {
+          "name": "match_home",
+          "title": "Which berth fits",
+          "description": "Which of the host's homes fits a group: adults, children, dogs and what they want (needs, e.g. \"pool table, near the beach\"), with the reasons from the published details and, with dates, the price for the stay. Read-only; check_rental_availability confirms the dates.",
+          "rules": [],
+          "readOnly": true,
+          "when": "Only on vacation rental plug-ins from version 0.48.0.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "business": {
+                "type": "string",
+                "description": "The business's BizPlug slug. Ask the customer which business they mean if unknown."
+              },
+              "adults": {
+                "type": "integer",
+                "minimum": 1,
+                "description": "How many adults."
+              },
+              "children": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "How many children."
+              },
+              "dogs": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "How many dogs come along."
+              },
+              "needs": {
+                "type": "string",
+                "description": "Optional: what the group wants, in their words (pool table, near the beach, bunk beds)."
+              },
+              "start": {
+                "type": "string",
+                "description": "Arrival date, YYYY-MM-DD."
+              },
+              "end": {
+                "type": "string",
+                "description": "Departure date, YYYY-MM-DD."
+              }
+            },
+            "required": [
+              "business",
+              "adults"
+            ]
+          }
+        },
+        {
+          "name": "plan_stay",
+          "title": "Plan my stay",
+          "description": "A day-by-day plan for the guest's dates (start, end) and group (adults, children, dogs), from the host's own local picks, shaped by interests and pace, with the events on those dates, rainy-day options, partner offers, and the homes that fit priced for the stay. Optional picks (names the guest saved) and home. Read-only: nothing is booked or held. Afterwards offer to check availability and book, or to continue on WhatsApp.",
+          "rules": [],
+          "readOnly": true,
+          "when": "Only on vacation rental plug-ins from version 0.48.0.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "business": {
+                "type": "string",
+                "description": "The business's BizPlug slug. Ask the customer which business they mean if unknown."
+              },
+              "start": {
+                "type": "string",
+                "description": "Arrival date, YYYY-MM-DD."
+              },
+              "end": {
+                "type": "string",
+                "description": "Departure date, YYYY-MM-DD."
+              },
+              "adults": {
+                "type": "integer",
+                "minimum": 1,
+                "description": "How many adults."
+              },
+              "children": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "How many children."
+              },
+              "dogs": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "How many dogs come along."
+              },
+              "interests": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "beaches",
+                    "food",
+                    "nature",
+                    "wildlife",
+                    "adventure",
+                    "sports",
+                    "golf",
+                    "tennis",
+                    "shopping",
+                    "culture",
+                    "history",
+                    "day-trips",
+                    "wellness",
+                    "relax",
+                    "family-activities"
+                  ]
+                },
+                "description": "Optional: what they enjoy most."
+              },
+              "pace": {
+                "type": "string",
+                "enum": [
+                  "relaxed",
+                  "balanced",
+                  "packed"
+                ],
+                "description": "Optional: how full the days should be. Defaults to balanced."
+              },
+              "picks": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Optional: names of the host's picks the guest saved, planned first."
+              },
+              "home": {
+                "type": "string",
+                "description": "Optional: the home they chose, by id or name."
+              }
+            },
+            "required": [
+              "business",
+              "start",
+              "end",
+              "adults"
+            ]
+          }
+        },
+        {
+          "name": "continue_on_whatsapp",
+          "title": "Continue on WhatsApp",
+          "description": "Hand the guest's trip (dates, group, home, saved picks, a note) to the host's WhatsApp concierge, which also answers during the stay. Returns the WhatsApp link and the exact message to send; sends nothing itself.",
+          "rules": [
+            "Use it when the guest wants to continue with the host on WhatsApp."
+          ],
+          "readOnly": true,
+          "when": "Only when the host has a WhatsApp concierge or number.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "business": {
+                "type": "string",
+                "description": "The business's BizPlug slug. Ask the customer which business they mean if unknown."
+              },
+              "start": {
+                "type": "string",
+                "description": "Arrival date, YYYY-MM-DD."
+              },
+              "end": {
+                "type": "string",
+                "description": "Departure date, YYYY-MM-DD."
+              },
+              "adults": {
+                "type": "integer",
+                "minimum": 1,
+                "description": "How many adults."
+              },
+              "children": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "How many children."
+              },
+              "dogs": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "How many dogs come along."
+              },
+              "home": {
+                "type": "string",
+                "description": "Optional: the home they chose."
+              },
+              "picks": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Optional: the picks the guest saved."
+              },
+              "note": {
+                "type": "string",
+                "description": "Optional: anything else for the host, in the guest's words."
+              }
+            },
+            "required": [
+              "business"
+            ]
+          }
+        },
+        {
+          "name": "my_registration",
+          "title": "My registration",
+          "description": "Open the customer's own registration with this business in its Ticket Tailor or Humanitix account, after a 6-digit code sent to the email they registered with, and change the name, email or phone on it. Called by the card only.",
+          "rules": [],
+          "readOnly": false,
+          "when": "Only where the business connected Ticket Tailor or Humanitix and switched on My registration, from version 0.58.0. The card calls it; the assistant does not see it.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "business": {
+                "type": "string",
+                "description": "The business's BizPlug slug. Ask the customer which business they mean if unknown."
+              },
+              "action": {
+                "type": "string",
+                "enum": [
+                  "send_code",
+                  "open",
+                  "list",
+                  "change"
+                ],
+                "description": "send_code: email a code; open: check the code; list: the tickets again; change: change one ticket."
+              },
+              "email": {
+                "type": "string",
+                "description": "The email the customer registered with (send_code, open)."
+              },
+              "code": {
+                "type": "string",
+                "description": "The 6-digit code from the email (open)."
+              },
+              "session": {
+                "type": "string",
+                "description": "The session the open step returned (list, change)."
+              },
+              "ticket": {
+                "type": "string",
+                "description": "The ticket to change (change)."
+              },
+              "first_name": {
+                "type": "string"
+              },
+              "last_name": {
+                "type": "string"
+              },
+              "new_email": {
+                "type": "string"
+              },
+              "phone": {
+                "type": "string"
+              },
+              "linkedin": {
+                "type": "string",
+                "description": "0.59.0: the attendee's LinkedIn profile address (change)."
+              },
+              "consent": {
+                "type": "boolean",
+                "description": "0.59.0: the attendee ticked that their public LinkedIn profile may be looked up and shared with the business (change)."
+              }
+            },
+            "required": [
+              "business",
+              "action"
+            ]
+          }
+        }
+      ]
+    },
     "restaurant-reservations": {
       "name": "Restaurant Reservations",
       "engine": "appt",

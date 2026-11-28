@@ -1,6 +1,6 @@
 # Plug-in packages
 
-BizPlug's plug-ins, one folder each: the 88 industry plug-ins and 2 startup directories. These folders are generated from the BizPlug website on each release, so please do not change them. Plug-ins from collaborators are in [`community/plugins/`](../community); to add yours, see [Contribute a plug-in](#contribute-a-plug-in). To propose a new industry, see [INDUSTRIES.md](../INDUSTRIES.md).
+BizPlug's plug-ins, one folder each: the 89 industry plug-ins and 2 startup directories. These folders are generated from the BizPlug website on each release, so please do not change them. Plug-ins from collaborators are in [`community/plugins/`](../community); to add yours, see [Contribute a plug-in](#contribute-a-plug-in). To propose a new industry, see [INDUSTRIES.md](../INDUSTRIES.md).
 
 ## What is in a package
 
@@ -121,6 +121,7 @@ To try a plug-in first, add its MCP server URL as a connector in ChatGPT develop
 | [`wedding-services/`](wedding-services) | Wedding & Events Pros: Check your date and request a consultation | `https://mcp.bizplug.ai/plugin/wedding-services` |
 | [`photography/`](photography) | Photography & Creative: Book a shoot or consultation | `https://mcp.bizplug.ai/plugin/photography` |
 | [`activity-calendar/`](activity-calendar) | Activity Calendar: Activities by date, with places per person | `https://mcp.bizplug.ai/plugin/activity-calendar` |
+| [`marinas/`](marinas) | Marinas & Boat Slips: Visitor berths by the night and harbour services | `https://mcp.bizplug.ai/plugin/marinas` |
 | [`tourism-bureaus/`](tourism-bureaus) | Tourism Bureaus & Destinations: Places to stay and things to do, with booking requests | `https://mcp.bizplug.ai/plugin/tourism-bureaus` |
 
 ### Finance & B2B

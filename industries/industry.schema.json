@@ -1,0 +1,769 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/msg2ai/bizplug-plugins/main/industries/industry.schema.json",
+  "title": "BizPlug industry file (community/industries/<slug>.json)",
+  "description": "Generated from the BizPlug website with the rest of this repository; INDUSTRIES.md explains every field. industries/check-industry.ts is the full check.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "slug",
+    "name",
+    "group",
+    "engine",
+    "title",
+    "tools",
+    "noun",
+    "ask",
+    "covers",
+    "author"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Where this schema is, for your editor."
+    },
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]{1,39}$",
+      "not": {
+        "enum": [
+          "events",
+          "hospitality",
+          "agencies",
+          "nonprofits",
+          "saas",
+          "consulting",
+          "retail",
+          "restaurants",
+          "real-estate",
+          "healthcare",
+          "education",
+          "travel",
+          "home-services",
+          "fitness",
+          "beauty",
+          "automotive",
+          "financial-services",
+          "insurance",
+          "legal",
+          "logistics",
+          "dental",
+          "optometry",
+          "dermatology",
+          "chiropractic",
+          "mental-health",
+          "veterinary",
+          "pharmacy",
+          "med-spa",
+          "senior-care",
+          "home-health",
+          "coffee-shops",
+          "bars-nightlife",
+          "catering",
+          "food-delivery",
+          "meal-kits",
+          "grocery",
+          "ghost-kitchens",
+          "fashion",
+          "electronics",
+          "furniture",
+          "beauty-ecommerce",
+          "subscriptions",
+          "florists",
+          "convenience-stores",
+          "hvac",
+          "plumbing",
+          "electricians",
+          "cleaning",
+          "landscaping",
+          "pest-control",
+          "moving-storage",
+          "solar",
+          "property-management",
+          "lending",
+          "wealth",
+          "crypto",
+          "accounting",
+          "chambers",
+          "recruiting",
+          "hr-comms",
+          "cybersecurity",
+          "dev-tools",
+          "airlines",
+          "cruise-lines",
+          "vacation-rentals",
+          "tour-operators",
+          "dmc",
+          "car-rental",
+          "theme-parks",
+          "museums",
+          "casinos",
+          "sports-teams",
+          "wedding-services",
+          "photography",
+          "government",
+          "utilities",
+          "telecom",
+          "religious-orgs",
+          "associations",
+          "childcare",
+          "tutoring",
+          "universities",
+          "political-campaigns",
+          "public-transit",
+          "coworking"
+        ]
+      },
+      "description": "Lower-case letters, digits and hyphens; the file is named <slug>.json."
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 60,
+      "description": "The industry's name."
+    },
+    "group": {
+      "enum": [
+        "Business essentials",
+        "Retail & food",
+        "Property & auto",
+        "Health & wellness",
+        "Community & public",
+        "Travel & leisure",
+        "Finance & B2B",
+        "Home & trades"
+      ],
+      "description": "Where the website lists it."
+    },
+    "engine": {
+      "enum": [
+        "order",
+        "stay",
+        "appt",
+        "quote",
+        "track"
+      ],
+      "description": "order: Browse a catalog with prices, send a pickup or delivery order, check its status. stay: Check what is free for dates and party size with the total price, send a booking request, check its status. appt: Find open times on a day, request an appointment, check its status. quote: Work out an estimate from published price rules, request a quote or a visit, check its status. track: Look up a reference the customer already has, send a new request, check its status."
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 60,
+      "description": "The plug-in's main function, short."
+    },
+    "tools": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lookup",
+        "request",
+        "status"
+      ],
+      "properties": {
+        "lookup": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]{2,40}$",
+          "description": "The look-up tool's name."
+        },
+        "request": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]{2,40}$",
+          "description": "The request tool's name."
+        },
+        "status": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]{2,40}$",
+          "description": "The status tool's name."
+        }
+      }
+    },
+    "noun": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 40,
+      "description": "What is ordered, booked or requested, one short noun."
+    },
+    "ask": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 160,
+      "pattern": "\\?\\s*$",
+      "description": "One question a customer would ask, ending with ?."
+    },
+    "covers": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "description": "The topics the plug-in answers from the business's profile."
+    },
+    "rule": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300,
+      "description": "What the plug-in must never do or say in this industry."
+    },
+    "span": {
+      "enum": [
+        "nights",
+        "days",
+        "single"
+      ],
+      "description": "stay engine only: by the night, by the day, or for one date."
+    },
+    "perGuest": {
+      "type": "boolean",
+      "description": "stay engine only: priced per guest instead of per unit."
+    },
+    "example": {
+      "type": "object",
+      "required": [
+        "business",
+        "item"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "business": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "description": "A made-up business."
+        },
+        "item": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "description": "One thing it offers."
+        },
+        "price": {
+          "type": "string",
+          "description": "Its price, like 15.00."
+        }
+      }
+    },
+    "who": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300,
+      "description": "Who would use it."
+    },
+    "author": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80,
+      "description": "Who the industry is credited to."
+    },
+    "authorUrl": {
+      "type": "string",
+      "pattern": "^https://",
+      "description": "Your own https link (site or profile)."
+    },
+    "github": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9](?:[A-Za-z0-9]|-(?=[A-Za-z0-9])){0,38}$",
+      "description": "Your GitHub username, without @."
+    },
+    "icon": {
+      "enum": [
+        "AppWindow",
+        "Armchair",
+        "Award",
+        "Baby",
+        "Bike",
+        "Bitcoin",
+        "Bone",
+        "BookOpen",
+        "Boxes",
+        "Brain",
+        "Briefcase",
+        "Bug",
+        "Building",
+        "Building2",
+        "Bus",
+        "Calculator",
+        "Camera",
+        "Car",
+        "CarFront",
+        "ChefHat",
+        "Church",
+        "Code",
+        "Coffee",
+        "CookingPot",
+        "Dices",
+        "Droplets",
+        "Dumbbell",
+        "Eye",
+        "FerrisWheel",
+        "FileText",
+        "Flower",
+        "Gavel",
+        "Gem",
+        "GraduationCap",
+        "HandCoins",
+        "Handshake",
+        "Heart",
+        "HeartHandshake",
+        "HeartPulse",
+        "Hotel",
+        "Landmark",
+        "Lightbulb",
+        "Lock",
+        "Megaphone",
+        "Palette",
+        "PawPrint",
+        "Pill",
+        "Plane",
+        "PlaneTakeoff",
+        "RadioTower",
+        "Repeat",
+        "Salad",
+        "School",
+        "Scissors",
+        "ShieldCheck",
+        "Ship",
+        "Shirt",
+        "ShoppingBag",
+        "ShoppingCart",
+        "Smartphone",
+        "Sofa",
+        "Sparkles",
+        "SprayCan",
+        "Stethoscope",
+        "Store",
+        "Sun",
+        "Ticket",
+        "Trees",
+        "TrendingUp",
+        "Trophy",
+        "Truck",
+        "UserPlus",
+        "Users",
+        "Utensils",
+        "UtensilsCrossed",
+        "Vote",
+        "Wind",
+        "Wine",
+        "Wrench",
+        "Zap"
+      ],
+      "description": "The industry's icon on the website."
+    },
+    "accent": {
+      "enum": [
+        "lime",
+        "mint",
+        "aqua",
+        "amber",
+        "sky"
+      ],
+      "description": "The industry's colour on the website."
+    },
+    "added": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "The day it was added, YYYY-MM-DD."
+    },
+    "page": {
+      "type": "object",
+      "description": "Optional: the words of the industry's page (INDUSTRIES.md)."
+    },
+    "chat": {
+      "type": "object",
+      "description": "Optional: the worked example on that page (INDUSTRIES.md)."
+    },
+    "options": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "members",
+          "infoFirst",
+          "software",
+          "visits",
+          "show",
+          "concierge",
+          "tourItineraries",
+          "dmcItineraries"
+        ]
+      },
+      "description": "members (stay/track): The business may publish its member businesses (members.csv): people search them and write to one directly. Tools find_members, write_to_member. | infoFirst (track): The menu starts with Ask a question; Committees and News & events when the business publishes them (committees.csv, news.csv, newsletter.csv). | software (appt): A software product: the menu is Features, Pricing, Help & guides, Support and Book a demo (features.csv, plans.csv, guides.csv). Tools get_features, get_pricing, search_help, request_support. | visits (stay days): Locations with tours and day passes (locations.csv). Tools get_visit_options, book_tour, request_day_pass. | show (stay days): A show or conference that publishes its programme gets an event guide: agenda, speakers, exhibitors and sponsors, enquiries (sessions.csv, speakers.csv, exhibitors.csv, sponsors.csv). | concierge (stay nights): A rental concierge: the host's local picks, area guide and events, house guide, which home fits, a day-by-day stay plan (places.csv, area.csv, events.csv, house.csv). | tourItineraries (stay single): Trips day by day: published itineraries, and a traveller's own trip by its code (trips.csv, trip_days.csv, trip_items.csv). | dmcItineraries (quote): Tailor-made programmes day by day with a price breakdown, and a client's proposal by its code (trips.csv, trip_days.csv, trip_items.csv, trip_prices.csv)."
+    },
+    "collections": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "key",
+          "tool",
+          "title",
+          "noun",
+          "description",
+          "ask",
+          "columns"
+        ],
+        "properties": {
+          "key": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{1,20}$",
+            "not": {
+              "enum": [
+                "area",
+                "blocked",
+                "bookable",
+                "business",
+                "catalog",
+                "committees",
+                "events",
+                "exhibitors",
+                "faqs",
+                "features",
+                "guides",
+                "hours",
+                "house",
+                "inventory",
+                "locations",
+                "members",
+                "news",
+                "newsletter",
+                "places",
+                "plans",
+                "prices",
+                "rates",
+                "records",
+                "services",
+                "sessions",
+                "social",
+                "speakers",
+                "sponsors",
+                "trip_days",
+                "trip_items",
+                "trip_prices",
+                "trips"
+              ]
+            },
+            "description": "The data file's name (key.csv)."
+          },
+          "tool": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{2,40}$",
+            "description": "The search tool's name."
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 30,
+            "description": "The menu option's title."
+          },
+          "noun": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 30,
+            "description": "One entry, in the singular."
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "What the list is."
+          },
+          "ask": {
+            "type": "string",
+            "maxLength": 120,
+            "pattern": "\\?\\s*$",
+            "description": "A question a customer would ask about it."
+          },
+          "layout": {
+            "enum": [
+              "list",
+              "grid"
+            ]
+          },
+          "columns": {
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 12,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "key",
+                "label",
+                "type",
+                "example"
+              ],
+              "properties": {
+                "key": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_]{0,30}$",
+                  "description": "The column's name in the data file. The first column is always name."
+                },
+                "label": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 30,
+                  "description": "The column's heading."
+                },
+                "type": {
+                  "enum": [
+                    "text",
+                    "longtext",
+                    "choice",
+                    "number",
+                    "date",
+                    "link",
+                    "image"
+                  ],
+                  "description": "text, longtext, choice (filterable), number, date, link (https) or image (https)."
+                },
+                "search": {
+                  "type": "boolean",
+                  "description": "Search this column (text, longtext or choice)."
+                },
+                "filter": {
+                  "type": "boolean",
+                  "description": "Offer this column's values as filter chips (choice columns, at most 2)."
+                },
+                "example": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 200,
+                  "description": "The example row of the business's data template."
+                }
+              }
+            }
+          },
+          "sample": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 8,
+            "items": {
+              "type": "object",
+              "required": [
+                "name"
+              ],
+              "additionalProperties": {
+                "type": "string",
+                "maxLength": 300
+              }
+            },
+            "description": "Made-up rows for the preview."
+          }
+        }
+      }
+    },
+    "menuTitles": {
+      "type": "object",
+      "propertyNames": {
+        "enum": [
+          "lookup",
+          "request",
+          "status",
+          "question",
+          "contact",
+          "members",
+          "explore",
+          "plan",
+          "match",
+          "area",
+          "house",
+          "trips",
+          "mytrip",
+          "tour",
+          "daypass",
+          "agenda",
+          "speakers",
+          "exhibitors",
+          "enquiry",
+          "features",
+          "pricing",
+          "guides",
+          "support",
+          "committees",
+          "news",
+          "social",
+          "forms",
+          "tickets"
+        ]
+      },
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 30
+      },
+      "description": "A menu option's kind and its title in your words."
+    },
+    "rules": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 5,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 300,
+        "description": "A rule the assistant always follows."
+      }
+    },
+    "cardTheme": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]{1,40}$",
+      "examples": [
+        "ocean",
+        "sunset",
+        "forest",
+        "orchid"
+      ],
+      "description": "A theme from THEMES.md."
+    },
+    "nouns": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "With the concierge option: its words for the host, a home, the homes and the house guide, lower case.",
+      "properties": {
+        "host": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 30,
+          "description": "e.g. marina"
+        },
+        "home": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 30,
+          "description": "e.g. berth"
+        },
+        "homes": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 30,
+          "description": "e.g. berths"
+        },
+        "houseGuide": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 30,
+          "description": "e.g. berth guide"
+        }
+      }
+    },
+    "forms": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "key",
+          "title",
+          "when",
+          "fields"
+        ],
+        "properties": {
+          "key": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{2,40}$",
+            "description": "The form's tool name."
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 40,
+            "description": "On the menu button and at the top of the form."
+          },
+          "when": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "When to offer the form, one sentence."
+          },
+          "fields": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 10,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "key",
+                "label",
+                "type"
+              ],
+              "properties": {
+                "key": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_]{0,29}$",
+                  "not": {
+                    "enum": [
+                      "business",
+                      "category",
+                      "country",
+                      "email",
+                      "exclude",
+                      "industry",
+                      "limit",
+                      "name",
+                      "notes",
+                      "offset",
+                      "phone",
+                      "prefer_countries",
+                      "prefer_programmes",
+                      "priorities",
+                      "programme",
+                      "q",
+                      "query",
+                      "reference",
+                      "startup",
+                      "startups",
+                      "thesis"
+                    ]
+                  },
+                  "description": "The answer's name."
+                },
+                "label": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 60,
+                  "description": "What the field asks."
+                },
+                "type": {
+                  "enum": [
+                    "text",
+                    "textarea",
+                    "select",
+                    "number",
+                    "date",
+                    "time",
+                    "boolean"
+                  ]
+                },
+                "required": {
+                  "type": "boolean"
+                },
+                "options": {
+                  "type": "array",
+                  "minItems": 2,
+                  "maxItems": 12,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 40,
+                    "description": "A choice."
+                  },
+                  "description": "For a select field: what can be chosen."
+                }
+              }
+            }
+          },
+          "done": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Shown after sending."
+          }
+        }
+      }
+    }
+  }
+}

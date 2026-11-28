@@ -311,7 +311,9 @@ function industryFileProblems(p: Record<string, unknown>, rules: IndustryFileRul
       });
     }
   }
-  const known = ["slug", "name", "group", "engine", "title", "tools", "noun", "ask", "covers", "rule", "span", "perGuest", "example", "who", "author", "authorUrl", "github", "icon", "accent", "added", "page", "chat", "options", "collections", "menuTitles", "rules", "cardTheme", "forms", "nouns"];
+  const known = ["slug", "name", "group", "engine", "title", "tools", "noun", "ask", "covers", "rule", "span", "perGuest", "example", "who", "author", "authorUrl", "github", "icon", "accent", "added", "page", "chat", "options", "collections", "menuTitles", "rules", "cardTheme", "forms", "nouns", "$schema"];
+  // An editor's pointer to industries/industry.schema.json (dropdowns and autocomplete); it changes nothing.
+  if (p.$schema !== undefined && typeof p.$schema !== "string") out.push("$schema must be the address of industry.schema.json.");
   for (const k of Object.keys(p)) if (!known.includes(k)) out.push(`unknown field: ${k}.`);
   if (/(sk_live_|sk_test_|ghp_[A-Za-z0-9]{20}|AKIA[0-9A-Z]{16}|-----BEGIN [A-Z ]*PRIVATE KEY)/.test(JSON.stringify(p))) out.push("the file looks like it holds a secret: remove it.");
   return out;
@@ -1081,6 +1083,13 @@ const RULES: IndustryFileRules = {
       "group": "Travel & leisure",
       "engine": "stay",
       "about": "the activities on offer, their dates and prices, who they suit, what to bring and where to meet. What is on this Saturday, and are there places for three?"
+    },
+    {
+      "slug": "marinas",
+      "name": "Marinas & Boat Slips",
+      "group": "Travel & leisure",
+      "engine": "stay",
+      "about": "visitor berths and nightly rates, boat length limits, fuel, water and shore power, showers and laundry, haul-out and the harbour area. Is there a visitor berth for a 12 m sailboat this Friday and Saturday?"
     },
     {
       "slug": "restaurant-reservations",

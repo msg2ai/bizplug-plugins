@@ -18,6 +18,7 @@ A layout has `layout.json`, `layout.js`, `layout.css`, `preview-desktop.png` and
 ## Industries: `community/industries/<slug>.json`
 
 - [`activity-calendar.json`](industries/activity-calendar.json)
+- [`marinas.json`](industries/marinas.json)
 - [`restaurant-reservations.json`](industries/restaurant-reservations.json)
 - [`tourism-bureaus.json`](industries/tourism-bureaus.json)
 

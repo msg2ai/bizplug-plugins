@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Read [INDUSTRIES.md](https://github.com/msg2ai/bizplug-plugins/blob/main/INDUSTRIES.md) first, and check that the industry is not one of the 88 already there. Issues are public: no customers' personal data, passwords or other secrets.
+        Read [INDUSTRIES.md](https://github.com/msg2ai/bizplug-plugins/blob/main/INDUSTRIES.md) first, and check that the industry is not one of the 89 already there. Issues are public: no customers' personal data, passwords or other secrets.
   - type: input
     id: name
     attributes:
