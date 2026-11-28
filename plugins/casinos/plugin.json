@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "bizplug-casinos",
-  "version": "0.64.0",
+  "version": "0.65.0",
   "description": "The casinos & gaming plug-in from BizPlug. Main function: hotel rooms and show tickets (no wagering). It works from the business's own published profile, covering hours, dining, events and age policies, and sends requests to the business to confirm. It never takes payment and only shares what the business has published. Never place, take or discuss wagers or odds. Provided by BizPlug: https://www.bizplug.ai, info@bizplug.ai.",
   "author": {
     "name": "Bart Cant - msg2ai",

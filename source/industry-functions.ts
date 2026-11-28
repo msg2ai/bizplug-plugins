@@ -53,6 +53,8 @@ export type IndustryFunction = {
   cardTheme?: string;
   /** 0.64.0 (`industryForms`): request forms every business in the industry gets, in the Form Tool's format, sent to the business's own channels only (plugin-mcp.ts formsFor). Contributed industries only. */
   forms?: CustomForm[];
+  /** 0.65.0 (`industryNouns`): the concierge's words for the host, a home, the homes and the house guide (concierge.ts wordsOf). Contributed industries only. */
+  nouns?: { host?: string; home?: string; homes?: string; houseGuide?: string };
   show?: boolean; // events: from 0.18.0 a show or conference that published its programme gets the event guide (Agenda, Speakers, Exhibitors & sponsors, Enquiry; event-guide.ts)
 };
 

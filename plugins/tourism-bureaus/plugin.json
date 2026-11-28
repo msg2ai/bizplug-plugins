@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "bizplug-tourism-bureaus",
-  "version": "0.64.0",
+  "version": "0.65.0",
   "description": "The tourism bureaus & destinations plug-in from BizPlug. Main function: places to stay and things to do, with booking requests. It works from the business's own published profile, covering places to stay, activities and tours, when to visit, getting around, events and visitor information, and sends requests to the business to confirm. It never takes payment and only shares what the business has published. Share only what the bureau has published. Never say a stay or an activity is booked, held or paid: the bureau or its partner confirms every booking. Never take payment or card details in the chat. Provided by BizPlug: https://www.bizplug.ai, info@bizplug.ai.",
   "author": {
     "name": "Bart Cant - msg2ai",

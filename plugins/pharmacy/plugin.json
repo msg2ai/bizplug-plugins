@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "bizplug-pharmacy",
-  "version": "0.64.0",
+  "version": "0.65.0",
   "description": "The pharmacies plug-in from BizPlug. Main function: store services and callback requests. It works from the business's own published profile, covering hours, services, vaccines and where to start a refill, and sends requests to the business to confirm. It never takes payment and only shares what the business has published. Scheduling and information only: never give medical, mental-health or clinical advice, and never ask for symptoms or records. Never collect medication names or prescription numbers in chat; the pharmacy gets those by phone. Provided by BizPlug: https://www.bizplug.ai, info@bizplug.ai.",
   "author": {
     "name": "Bart Cant - msg2ai",

@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "bizplug-senior-care",
-  "version": "0.64.0",
+  "version": "0.65.0",
   "description": "The senior care & communities plug-in from BizPlug. Main function: schedule community tours. It works from the business's own published profile, covering care levels, amenities and tour requests, and sends requests to the business to confirm. It never takes payment and only shares what the business has published. Scheduling and information only: never give medical, mental-health or clinical advice, and never ask for symptoms or records. Provided by BizPlug: https://www.bizplug.ai, info@bizplug.ai.",
   "author": {
     "name": "Bart Cant - msg2ai",

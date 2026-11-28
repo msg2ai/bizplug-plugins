@@ -160,10 +160,11 @@ By opening a pull request you agree that your contribution is published under th
 
 Not on GitHub? Use the forms instead: [Propose a card theme](https://github.com/msg2ai/bizplug-plugins/issues/new?template=card-theme.yml), [Propose a menu layout](https://github.com/msg2ai/bizplug-plugins/issues/new?template=menu-layout.yml), or https://www.bizplug.ai/marketplace#submit for a plug-in. Questions: info@bizplug.ai.
 
-## Version 0.64.0
+## Version 0.65.0
 
 All 88 plug-ins share one version. What changed in each:
 
+- **0.65.0** (28 November 2026): The concierge speaks your industry's words: a marina's picks and its berths, not a host's and homes.
 - **0.64.0** (28 November 2026): Industry forms: request forms your industry gives every business, such as a warranty claim, sent to your own inbox.
 - **0.63.0** (28 November 2026): Industry words: an industry's menu speaks its own language, with its own titles and rules.
 - **0.62.0** (28 November 2026): Collections: searchable lists an industry defines, such as climbing routes or recipes, each with its own data file and card screen.

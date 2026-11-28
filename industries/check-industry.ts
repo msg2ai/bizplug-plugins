@@ -251,6 +251,18 @@ function industryFileProblems(p: Record<string, unknown>, rules: IndustryFileRul
     if (!Array.isArray(p.rules) || p.rules.length < 1 || p.rules.length > 5) out.push("rules must be a list of 1 to 5 rules.");
     else p.rules.forEach((r, i) => { if (!isText(r) || r.length > 300) out.push(`rules[${i}] must be text of at most 300 characters.`); });
   }
+  // The concierge's words for the host, a home, the homes and the house guide (only with the concierge option).
+  if (p.nouns !== undefined) {
+    const n = p.nouns;
+    if (!n || typeof n !== "object" || Array.isArray(n)) out.push(`nouns must be an object, for example { "host": "marina", "home": "berth", "homes": "berths", "houseGuide": "berth guide" }.`);
+    else {
+      if (!(Array.isArray(p.options) && p.options.includes("concierge"))) out.push("nouns are the concierge's words: add \"concierge\" to options, or remove nouns.");
+      for (const [k, v] of Object.entries(n as Record<string, unknown>)) {
+        if (!["host", "home", "homes", "houseGuide"].includes(k)) out.push(`nouns: ${k} is not one of host, home, homes, houseGuide.`);
+        else if (!isText(v) || v.length > 30 || /[A-Z]/.test(v.charAt(0))) out.push(`nouns.${k} must be lower-case text of at most 30 characters (it is used inside sentences).`);
+      }
+    }
+  }
   if (p.cardTheme !== undefined && !(typeof p.cardTheme === "string" && /^[a-z][a-z0-9-]{1,40}$/.test(p.cardTheme))) out.push("cardTheme must be a theme's id, as in themes/<id>.json or THEMES.md.");
   // Request forms every business in the industry gets (sent to the business's own channels only).
   if (p.forms !== undefined) {
@@ -299,7 +311,7 @@ function industryFileProblems(p: Record<string, unknown>, rules: IndustryFileRul
       });
     }
   }
-  const known = ["slug", "name", "group", "engine", "title", "tools", "noun", "ask", "covers", "rule", "span", "perGuest", "example", "who", "author", "authorUrl", "github", "icon", "accent", "added", "page", "chat", "options", "collections", "menuTitles", "rules", "cardTheme", "forms"];
+  const known = ["slug", "name", "group", "engine", "title", "tools", "noun", "ask", "covers", "rule", "span", "perGuest", "example", "who", "author", "authorUrl", "github", "icon", "accent", "added", "page", "chat", "options", "collections", "menuTitles", "rules", "cardTheme", "forms", "nouns"];
   for (const k of Object.keys(p)) if (!known.includes(k)) out.push(`unknown field: ${k}.`);
   if (/(sk_live_|sk_test_|ghp_[A-Za-z0-9]{20}|AKIA[0-9A-Z]{16}|-----BEGIN [A-Z ]*PRIVATE KEY)/.test(JSON.stringify(p))) out.push("the file looks like it holds a secret: remove it.");
   return out;

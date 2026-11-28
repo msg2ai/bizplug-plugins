@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "bizplug-veterinary",
-  "version": "0.64.0",
+  "version": "0.65.0",
   "description": "The veterinary & pet care plug-in from BizPlug. Main function: book pet appointments. It works from the business's own published profile, covering services, hours, vaccines and appointment requests, and sends requests to the business to confirm. It never takes payment and only shares what the business has published. Do not give veterinary advice; for an emergency tell the owner to call the clinic or an emergency vet now. Provided by BizPlug: https://www.bizplug.ai, info@bizplug.ai.",
   "author": {
     "name": "Bart Cant - msg2ai",

@@ -2111,7 +2111,10 @@ const tripList = () => state.trip || (state.trip = []);
 const inTrip = (name) => tripList().indexOf(name) >= 0;
 function toggleTrip(name) { const t = tripList(), i = t.indexOf(name); if (i >= 0) t.splice(i, 1); else t.push(name); save(); render(); }
 const possOf = (n) => (/s$/i.test(n) ? n + "’" : n + "’s");
-const hostName = (d) => (d && d.business) || p().businessName || p().title || "the host";
+// 0.65.0 (industryNouns): the industry's words for the host, a home, the homes and the house guide (concierge.ts wordsOf), else the rentals' own.
+const cw = () => p().nouns || { host: "host", home: "home", homes: "homes", houseGuide: "house guide" };
+const capw = (x) => String(x).charAt(0).toUpperCase() + String(x).slice(1);
+const hostName = (d) => (d && d.business) || p().businessName || p().title || "the " + cw().host;
 const pickQ = (x, d) => "Tell me more about " + x.name + (x.address ? " (" + x.address + ")" : "") + " near " + hostName(d) + ": what to expect, what to order or do, how busy it gets and anything worth knowing before going. You may use what you know and search the web; tell me which parts are not from " + possOf(hostName(d)) + " own picks.";
 const gfTag = (g) => '<span class="ctag">' + esc({ kids: "Kids", dogs: "Dogs", rainy: "Rainy day", couples: "Couples", groups: "Groups", sunset: "Sunset", free: "Free" }[g] || g) + "</span>";
 function pickBody(x, d, full) {
@@ -2186,14 +2189,14 @@ function areaView() {
 }
 function houseView() {
   const d = state.data.house || { items: [], homes: [] }, o = opt("house");
-  const homes = (d.homes || []).length > 1 ? '<div class="qlabel">Your home</div><div class="qs" style="margin-top:0">' + chip("All homes", "data-chome", "", !d.home) + d.homes.map((h) => chip(esc(h.name), "data-chome", h.id, d.home === h.id)).join("") + "</div>" : "";
+  const homes = (d.homes || []).length > 1 ? '<div class="qlabel">Your ' + esc(cw().home) + '</div><div class="qs" style="margin-top:0">' + chip("All " + esc(cw().homes), "data-chome", "", !d.home) + d.homes.map((h) => chip(esc(h.name), "data-chome", h.id, d.home === h.id)).join("") + "</div>" : "";
   const find = '<div class="find"><input type="search" data-f="hq" data-enter="hfind" value="' + esc(state.f.hq || "") + '" placeholder="Grill, washer, oven, Wi-Fi…"><button class="btn" data-act="hfind">Search</button></div>';
   const groups = [];
   (d.items || []).forEach((x) => { let g = groups.find((y) => y.label === x.topicLabel); if (!g) groups.push(g = { label: x.topicLabel, items: [] }); g.items.push(x); });
   const body = groups.map((g) => '<div class="qlabel" style="margin-top:14px">' + esc(g.label) + "</div>" + g.items.map((x) =>
     '<details class="chouse"><summary><b>' + esc(x.title) + "</b>" + (x.homes.length ? "<small>" + esc(x.homes.join(", ")) + "</small>" : "") + "</summary>" + (x.image ? '<img class="cimg" src="' + esc(x.image) + '" alt="">' : "") + "<p>" + esc(x.text) + "</p></details>").join("")).join("");
-  return top(o ? o.title : "House guide") + homes + find + (body || '<div class="empty">Nothing in the house guide matches. Ask the host.</div>') +
-    '<div class="note">As written by ' + esc(hostName(d)) + ". Door codes and Wi-Fi passwords come from the host before you arrive.</div>" + links("");
+  return top(o ? o.title : capw(cw().houseGuide)) + homes + find + (body || '<div class="empty">Nothing in the ' + esc(cw().houseGuide) + ' matches. Ask the ' + esc(cw().host) + '.</div>') +
+    '<div class="note">As written by ' + esc(hostName(d)) + ". Door codes and Wi-Fi passwords come from the " + esc(cw().host) + " before you arrive.</div>" + links("");
 }
 const partyFields = () => '<div class="row three">' + field("cadults", "Adults", { type: "number", min: 1, placeholder: "2" }) + field("ckids", "Children", { type: "number", placeholder: "0" }) + field("cdogs", "Dogs", { type: "number", placeholder: "0" }) + "</div>";
 const party = () => clean({ adults: Math.max(1, Math.floor(num("cadults") || 2)), children: Math.floor(num("ckids") || 0) || undefined, dogs: Math.floor(num("cdogs") || 0) || undefined });
@@ -2220,24 +2223,24 @@ function planView() {
     (d.days || []).map(day).join("") + (d.truncated ? '<div class="note">The plan shows the first days of your stay.</div>' : "") +
     ((d.rainy || []).length ? '<div class="ctrip"><b>If it rains</b><span>' + d.rainy.map((x) => esc(x.name)).join(", ") + "</span></div>" : "") +
     ((d.offers || []).length ? '<div class="qlabel" style="margin-top:14px">Guest offers</div>' + d.offers.map((x) => '<div class="coffer"><b>' + esc(x.name) + (x.offerDirect ? " · book-direct perk" : "") + "</b> " + esc(x.offer) + "</div>").join("") : "") +
-    '<div class="qlabel" style="margin-top:16px">Homes for your dates</div><div class="list">' + (homes || '<div class="empty">No home fits this group on those dates. Try other dates.</div>') + "</div>" +
+    '<div class="qlabel" style="margin-top:16px">' + esc(capw(cw().homes)) + ' for your dates</div><div class="list">' + (homes || '<div class="empty">No ' + esc(cw().home) + ' fits this group on those dates. Try other dates.</div>') + "</div>" +
     '<div class="note">Prices from the published rates, ' + esc(d.tax || "") + ". The availability check confirms the dates and the price; nothing is booked until you book.</div>" +
-    '<div class="actions" style="margin-top:12px"><button class="btn" data-own="1" data-ask="' + esc("Looking at my plan for " + hostName(d) + " (" + d.start + " to " + d.end + "): what is the weather usually like then, and what should we pack? Say which parts are yours and not the host's.") + '">Ask ' + esc(AI()) + " about the weather</button>" +
+    '<div class="actions" style="margin-top:12px"><button class="btn" data-own="1" data-ask="' + esc("Looking at my plan for " + hostName(d) + " (" + d.start + " to " + d.end + "): what is the weather usually like then, and what should we pack? Say which parts are yours and not the " + cw().host + "'s.") + '">Ask ' + esc(AI()) + " about the weather</button>" +
     ((conc() || {}).whatsapp ? '<button class="btn wa" data-act="ctrip">' + icon("whatsapp") + "Continue on WhatsApp</button>" : "") + '<button class="btn" data-view="planform">Change the plan</button></div>';
 }
 function matchFormView() {
   const o = opt("match");
-  return '<div class="form">' + top(o ? o.title : "Which home fits?") + '<div class="hint">' + esc((o && o.description) || "") + "</div>" + partyFields() +
+  return '<div class="form">' + top(o ? o.title : "Which " + cw().home + " fits?") + '<div class="hint">' + esc((o && o.description) || "") + "</div>" + partyFields() +
     field("cneeds", "What matters to you", { type: "textarea", placeholder: "Near the beach, a pool table, bunk beds for the kids…" }) +
     '<div class="row">' + field("start", "Arrive", { type: "date", optional: true }) + field("end", "Leave", { type: "date", optional: true }) + "</div>" + errLine() +
-    '<div class="actions">' + primary("Find my home", "cmatch") + "</div></div>";
+    '<div class="actions">' + primary("Find my " + cw().home, "cmatch") + "</div></div>";
 }
 function matchView() {
   const d = state.data.match || { homes: [] };
   const rows = (d.homes || []).map((h, i) => '<div class="it' + (h.fits ? "" : " dim") + '"><div class="nm"><b>' + (h.fits && i === 0 ? "★ " : "") + esc(h.name) + "</b><b>" + esc(h.total || "from " + h.nightly) + "</b></div>" +
     (h.description ? '<div class="bl">' + esc(h.description) + "</div>" : "") + '<div class="ctags">' + (h.why || []).map((w) => '<span class="ctag">' + esc(w) + "</span>").join("") + "</div>" +
     (h.fits ? '<div class="acts"><button class="btn go" data-cbook="' + esc(h.id) + '">Check availability & book</button>' + (opt("plan") ? '<button class="btn" data-cgo="plan" data-home="' + esc(h.id) + '">Plan my stay here</button>' : "") + "</div>" : "") + "</div>").join("");
-  return top("Homes for " + ((d.party || {}).text || "your group")) + '<div class="list" style="margin-top:10px">' + rows + "</div>" +
+  return top(capw(cw().homes) + " for " + ((d.party || {}).text || "your group")) + '<div class="list" style="margin-top:10px">' + rows + "</div>" +
     '<div class="note">From ' + esc(possOf(hostName(d))) + " published details and rates. The availability check confirms the dates and the price.</div>";
 }
 function tripView() {
@@ -2280,7 +2283,7 @@ function conciergeHandlers(on, app, guard) {
   });
   on('[data-act="ctrip"]', () => {
     const d = state.data.plan || {}, pa = d.party || {};
-    run(tool("whatsapp"), clean({ start: d.start || v("start"), end: d.end || v("end"), adults: pa.adults, children: pa.children || undefined, dogs: pa.dogs || undefined, home: state.f.chome || "", picks: tripList().slice() }), "I'd like to continue with the host on WhatsApp.");
+    run(tool("whatsapp"), clean({ start: d.start || v("start"), end: d.end || v("end"), adults: pa.adults, children: pa.children || undefined, dogs: pa.dogs || undefined, home: state.f.chome || "", picks: tripList().slice() }), "I'd like to continue with the " + cw().host + " on WhatsApp.");
   });
 }
 

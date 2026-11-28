@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "bizplug-chambers",
-  "version": "0.64.0",
+  "version": "0.65.0",
   "description": "The chambers of commerce & business associations plug-in from BizPlug. Main function: chamber information, membership enquiries and member businesses. It works from the business's own published profile, covering membership levels and benefits, events, programs, committees, advocacy and member businesses, and sends requests to the business to confirm. It never takes payment and only shares what the business has published. Share only what the chamber or association has published about membership, dues, events and programs. Never promise that membership will be approved, or any introduction, business lead or policy outcome, and never take payment of dues in chat. Provided by BizPlug: https://www.bizplug.ai, info@bizplug.ai.",
   "author": {
     "name": "Bart Cant - msg2ai",

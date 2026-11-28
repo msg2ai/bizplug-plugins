@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "bizplug-telecom",
-  "version": "0.64.0",
+  "version": "0.65.0",
   "description": "The telecom & isps plug-in from BizPlug. Main function: compare plans and request service. It works from the business's own published profile, covering plans, coverage and support, and sends requests to the business to confirm. It never takes payment and only shares what the business has published. Provided by BizPlug: https://www.bizplug.ai, info@bizplug.ai.",
   "author": {
     "name": "Bart Cant - msg2ai",

@@ -1,6 +1,6 @@
 # BizPlug Tax & Accounting
 
-Version 0.64.0. Book a tax or bookkeeping consult for tax & accounting businesses.
+Version 0.65.0. Book a tax or bookkeeping consult for tax & accounting businesses.
 
 - Main function: Book a tax or bookkeeping consult
 - MCP server URL: `https://mcp.bizplug.ai/plugin/accounting` (streamable HTTP, no sign-in)
@@ -32,6 +32,7 @@ Version 0.64.0. Book a tax or bookkeeping consult for tax & accounting businesse
 
 ## Changes
 
+- **0.65.0** (28 November 2026): The concierge speaks your industry's words: a marina's picks and its berths, not a host's and homes.
 - **0.64.0** (28 November 2026): Industry forms: request forms your industry gives every business, such as a warranty claim, sent to your own inbox.
 - **0.63.0** (28 November 2026): Industry words: an industry's menu speaks its own language, with its own titles and rules.
 - **0.62.0** (28 November 2026): Collections: searchable lists an industry defines, such as climbing routes or recipes, each with its own data file and card screen.

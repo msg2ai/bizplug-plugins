@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "bizplug-websummit-qatar",
-  "version": "0.64.0",
+  "version": "0.65.0",
   "description": "Search the 1,546 startups that exhibited at Web Summit Qatar 2026 in Doha by thesis, sector, country or region (Qatar, GCC, MENA and more) and startup programme, read each startup's pitch, rank a shortlist against your thesis and priorities, and reach the founders directly through their published email, WhatsApp, LinkedIn or website. Built for investors. Data comes from Web Summit's public startup list (name, pitch, industry, country, startup programme) and, for enriched startups, from the startup's own website and Web Summit page (summary, founders, address, business contacts, social links), each with its source. The plug-in never gives investment advice and never invents funding, traction, valuation or team facts. BizPlug is not affiliated with Web Summit.",
   "author": {
     "name": "Bart Cant - msg2ai",

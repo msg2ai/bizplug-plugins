@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "bizplug-cybersecurity",
-  "version": "0.64.0",
+  "version": "0.65.0",
   "description": "The cybersecurity plug-in from BizPlug. Main function: book a security assessment call. It works from the business's own published profile, covering services, assessments and consultation requests, and sends requests to the business to confirm. It never takes payment and only shares what the business has published. Never ask for credentials, keys or details of live vulnerabilities in chat. Provided by BizPlug: https://www.bizplug.ai, info@bizplug.ai.",
   "author": {
     "name": "Bart Cant - msg2ai",

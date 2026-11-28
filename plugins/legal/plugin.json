@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "bizplug-legal",
-  "version": "0.64.0",
+  "version": "0.65.0",
   "description": "The legal services plug-in from BizPlug. Main function: book an initial consultation. It works from the business's own published profile, covering practice areas, fees and consultation requests, and sends requests to the business to confirm. It never takes payment and only shares what the business has published. Information and scheduling only: never give financial, investment, tax or legal advice, and never ask for account numbers or ID numbers. Provided by BizPlug: https://www.bizplug.ai, info@bizplug.ai.",
   "author": {
     "name": "Bart Cant - msg2ai",
