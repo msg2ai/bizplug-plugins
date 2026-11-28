@@ -195,7 +195,8 @@ async function main() {
         const value = String(f.values[0].name);
         const narrowed = await call(url, name, { [f.key]: value });
         const got = (narrowed.structuredContent?.collection?.items ?? []) as Json[];
-        check(`${name} filtered by ${f.label} "${value}"`, !narrowed.isError && got.length > 0 && got.every((x) => String(x.values?.[f.key] ?? "").toLowerCase().includes(value.toLowerCase())), `${got.length} match`);
+        const off = got.filter((x) => !String(x.values?.[f.key] ?? "").toLowerCase().includes(value.toLowerCase())).length;
+        check(`${name} filtered by ${f.label} "${value}"`, !narrowed.isError && got.length > 0 && off === 0, narrowed.isError ? textOf(narrowed).slice(0, 100) : !got.length ? `nothing returned, though the list has an entry with ${f.label} "${value}"` : off ? `${got.length} returned, ${off} without ${f.label} "${value}"` : `${got.length} match`);
       }
       if (items[0]?.id) {
         const one = await call(url, name, { id: items[0].id });
