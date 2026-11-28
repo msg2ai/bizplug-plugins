@@ -1544,7 +1544,6 @@ const RULES: IndustryFileRules = {
     ],
     "reservedFieldKeys": [
       "business",
-      "business",
       "category",
       "country",
       "email",
