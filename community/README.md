@@ -26,13 +26,6 @@ One file per industry, in the format of [`industries/example.json`](../industrie
 
 ## Add yours
 
-1. Fork https://github.com/msg2ai/bizplug-plugins and create a branch, for example `theme/harbour`, `layout/magazine`, `industry/bicycle-shops` or `plugin/acme-bookings`.
-2. Add only the files of your contribution, in the folder the table names. Everything else is generated from the BizPlug website on every release (the packages in `plugins/`, `layouts/`, `source/` and the pages at the top), so a change there would be overwritten; the checks fail a pull request that changes it.
-3. Run the check for your kind of contribution and fix what it reports.
-4. Open a pull request against `main`. Its description starts with a checklist ([`.github/pull_request_template.md`](../.github/pull_request_template.md)): keep the part for your kind of contribution, paste the check's output, and add a screenshot.
-5. The checks run on the pull request, and the BizPlug team reviews it: on real cards, in dark and light mode, for a theme or a layout, and in ChatGPT for a plug-in. Changes are asked for in the pull request.
-6. Once approved, it is merged into `main` and stays in this repository, credited to you, through every release.
-
-On your first pull request to this repository, GitHub may wait for a maintainer to approve running the checks (it says so on the pull request). They run as soon as someone on the team approves them.
+The steps are in the repository's README, [How to open a pull request](../README.md#how-to-open-a-pull-request); for a new industry, [INDUSTRIES.md](../INDUSTRIES.md#add-a-new-industry) walks you through every step.
 
 Everything here is published under the repository's [MIT License](https://github.com/msg2ai/bizplug-plugins/blob/main/LICENSE), like the rest of it. What merging does and does not do: your work is published here for anyone to read and use. Merging also lists a theme, a layout or a plug-in in the [BizPlug marketplace](https://www.bizplug.ai/marketplace), where businesses add it to their plug-in; a plug-in is then set up with each business by the BizPlug team, at your own endpoint unless we agree with you to host it.

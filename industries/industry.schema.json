@@ -17,6 +17,41 @@
     "covers",
     "author"
   ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "engine": {
+            "const": "stay"
+          }
+        },
+        "required": [
+          "engine"
+        ]
+      },
+      "then": {
+        "required": [
+          "span"
+        ]
+      },
+      "else": {
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "span"
+              ]
+            },
+            {
+              "required": [
+                "perGuest"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ],
   "properties": {
     "$schema": {
       "type": "string",
@@ -225,13 +260,13 @@
         "business": {
           "type": "string",
           "minLength": 1,
-          "maxLength": 80,
+          "maxLength": 60,
           "description": "A made-up business."
         },
         "item": {
           "type": "string",
           "minLength": 1,
-          "maxLength": 80,
+          "maxLength": 60,
           "description": "One thing it offers."
         },
         "price": {
